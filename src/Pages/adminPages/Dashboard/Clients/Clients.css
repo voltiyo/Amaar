@@ -1,0 +1,11 @@
+.admin-clients-table,.admin-clients-table th,.admin-clients-table td {
+    border: 2px solid #fff;
+    border-collapse: collapse;
+}
+.admin-clients-table td{
+    padding: 10px;
+    font-weight: 600;
+}
+.admin-clients-table{
+    margin-top: 20px;
+}
