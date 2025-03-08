@@ -679,7 +679,7 @@ const __dirname = path.dirname(__filename);
 
 
 let PORT = process.env.PORT || 5000;
-if (process.argv.includes("prod")) {
+if (process.env.NODE_ENV === "production") {
   console.log("production mode enabled !")
   app.use(express.static(path.join(__dirname, "dist")));
   app.use("/public", express.static(path.join(__dirname, "public")));

@@ -107,7 +107,7 @@ export default function Locations() {
     return (
         <div style={{padding: "10px 60px", color: "#fff"}}>
             <h1 style={{color: "#fff", textDecoration: "underline"}}>Locations</h1>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minWidth: "500px"}}>
                 <div>
                     <span style={{margin: "0px 10px", fontWeight: "600"}}>Locations per page:</span> 
                     <select name="" id="" value={CommunitiesPerPage} onChange={(value) => {setCommunitiesPerPage(value.target.value)}}>
@@ -157,7 +157,7 @@ export default function Locations() {
                                     <td><Checkbox val={dev.id}  checked={checked}/></td>
                                     <td>{dev.id}</td>
                                     <td>{dev.name}</td>
-                                    <td>{dev.description}</td>
+                                    <td className="clamp-text">{dev.description}</td>
                                     <td>{dev.population}</td>
                                     <td>{dev.density}</td>
                                     <td>{dev.area}</td>

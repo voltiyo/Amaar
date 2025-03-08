@@ -89,7 +89,7 @@ export default function Developers() {
                         <li>Developers</li>
                     </ul>
                 </div>
-                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem"}}>
+                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem", flexWrap: "wrap"}}>
                     <div className="section-redirect " style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}} onClick={() => window.location.href = "/Offplan-Projects"}>
                         <i className="ri-building-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Projects</p>
@@ -109,7 +109,7 @@ export default function Developers() {
                 </div>
 
 
-                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem", flexDirection: windowSize >= 800 ? "row": "column"}} >
+                <div style={{display: "flex", justifyContent: "center", padding: windowSize >= 800 ? "2rem": "10px", gap: "1rem", flexDirection: windowSize >= 800 ? "row": "column"}} >
                     
                     <div style={{width: windowSize >= 800 ? "25%" : "100%", }}>
                         <div style={{position: "sticky", top: "0px", boxShadow: "0 .5rem 1rem rgb(0 0 0 / .15)", padding: "10px", borderRadius: "10px"}}>
@@ -135,7 +135,7 @@ export default function Developers() {
                             }
                         </div>
                     </div>
-                    <div style={{width: windowSize >= 800 ? "60%" : "100%"}}>
+                    <div style={{width: windowSize >= 800 ? "60%" : "100%", transform: windowSize <= 800 && "scale(.9)"}}>
                         <h4>Developers ({Community.length})</h4>
                         <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(248,249,250) ", border: "1px solid #dee2e6", padding: "20px ", borderRadius: "10px"}}>
                             <div >

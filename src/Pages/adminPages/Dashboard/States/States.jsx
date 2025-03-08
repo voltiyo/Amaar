@@ -92,7 +92,7 @@ export default function States() {
     return (
         <div style={{padding: "10px 60px", color: "#fff"}}>
             <h1 style={{color: "#fff", textDecoration: "underline"}}>States</h1>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minWidth: "400px"}}>
                 <div>
                     <span style={{margin: "0px 10px", fontWeight: "600"}}>States per page:</span> 
                     <select name="" id="" value={CommunitiesPerPage} onChange={(value) => {setCommunitiesPerPage(value.target.value)}}>

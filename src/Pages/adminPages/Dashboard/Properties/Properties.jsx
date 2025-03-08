@@ -233,7 +233,7 @@ export default function Properties() {
     return (
         <div style={{padding: "10px 60px", color: "#fff"}}>
             <h1 style={{color: "#fff", textDecoration: "underline"}}>Properties</h1>
-            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", minWidth: "980px"}}>
                 <div>
                     <span style={{margin: "0px 10px", fontWeight: "600"}}>Properties per page:</span> 
                     <select name="" id="" value={PropertiesPerPage} onChange={(value) => {setPropertiesPerPage(value.target.value)}}>
@@ -243,7 +243,7 @@ export default function Properties() {
                         <option value="200">200</option>
                     </select>
                 </div>
-                <button style={{display: "flex", cursor: "pointer", fontSize: "1.1rem",alignItems: "center", justifyContent: "space-around", fontWeight: "600", color: "#fff", outline: "none", borderRadius: "10px", background: "green", padding: "10px 20px", width: "130px", border: "1px solid #ccc"}} onClick={() => {setCreateForm(true)}}>
+                <button style={{display: "flex", cursor: "pointer", gap: ".5rem", fontSize: "1.1rem",alignItems: "center", justifyContent: "space-around", fontWeight: "600", color: "#fff", outline: "none", borderRadius: "10px", background: "green", padding: "10px 20px", width: "130px", border: "1px solid #ccc"}} onClick={() => {setCreateForm(true)}}>
                     <i className="fa fa-plus"></i>
                     create
                 </button>

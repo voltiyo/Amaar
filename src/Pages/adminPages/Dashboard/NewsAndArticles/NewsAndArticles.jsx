@@ -94,7 +94,7 @@ export default function NewsAndArticles() {
     return (
         <div style={{padding: "10px 60px", color: "#fff"}}>
             <h1 style={{color: "#fff", textDecoration: "underline"}}>News And Articles</h1>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minWidth: "530px"}}>
                 <div>
                     <span style={{margin: "0px 10px", fontWeight: "600"}}>Articles per page:</span> 
                     <select name="" id="" value={AgentsPerPage} onChange={(value) => {setAgentsPerPage(value.target.value)}}>

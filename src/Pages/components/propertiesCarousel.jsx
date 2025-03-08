@@ -46,9 +46,6 @@ export default function PropertiesCarousel() {
   }, [])
   
   
-  useEffect(() => {
-    setInterval(ScrollRight, 5000);
-  }, [])
   
   return (
     <div style={{ width: "80%",height: "250px", display: "flex", justifyContent: "center", alignItems: "center"}} >
@@ -58,7 +55,7 @@ export default function PropertiesCarousel() {
       
       <div id="properties-carousel-container" style={{display: "flex",margin: "0px 15px", alignItems: "center", position: "relative", justifyContent: "center", overflow: "scroll", gap: "10px", width: "40%", paddingLeft: "950px", paddingRight: "50px", scrollbarWidth: "none", msOverflowStyle: "none"}}>
         <style>{`
-          div::-webkit-scrollbar {
+          #properties-carousel-container::-webkit-scrollbar {
             display: none;
           }
         `}</style>

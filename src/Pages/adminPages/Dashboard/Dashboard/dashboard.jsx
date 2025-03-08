@@ -25,36 +25,49 @@ export default function AdminDashboard() {
         GetCounts()
     }, [])
 
+    const months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    
+    const getMonthIndex = (month) => months.indexOf(month);
+    
     useEffect(() => {
-        if (clients.length > 0) { 
-          const groupedData = clients.reduce((acc, client) => {
-            const date = new Date(client.created_at).toDateString().split(" ")[1]; 
-            acc[date] = (acc[date] || 0) + 1; 
-            return acc;
-          }, {});
-      
-          const ClientsChartData = Object.entries(groupedData).map(([date, count]) => ({
-            name: date,
+      if (clients.length > 0) { 
+        const groupedData = clients.reduce((acc, client) => {
+          const date = new Date(client.created_at);
+          const month = date.toDateString().split(" ")[1]; 
+          acc[month] = (acc[month] || 0) + 1; 
+          return acc;
+        }, {});
+    
+        const ClientsChartData = Object.entries(groupedData)
+          .map(([month, count]) => ({
+            name: month,
             value: count,
-          }));
-      
-          setClientsChartData(ClientsChartData);
-        }
-        if (properties.length > 0) { 
-            const groupedData = properties.reduce((acc, client) => {
-              const date = new Date(client.created_at).toDateString().split(" ")[1]; 
-              acc[date] = (acc[date] || 0) + 1; 
-              return acc;
-            }, {});
+          }))
+          .sort((a, b) => getMonthIndex(a.name) - getMonthIndex(b.name));
         
-            const propertiesChartData = Object.entries(groupedData).map(([date, count]) => ({
-              name: date,
-              value: count,
-            }));
-        
-            setPropertiesChartData(propertiesChartData);
-        }
-      }, [properties]);
+        setClientsChartData(ClientsChartData);
+      }
+    
+      if (properties.length > 0) { 
+        const groupedData = properties.reduce((acc, property) => {
+          const date = new Date(property.created_at);
+          const month = date.toDateString().split(" ")[1]; 
+          acc[month] = (acc[month] || 0) + 1; 
+          return acc;
+        }, {});
+        const propertiesChartData = Object.entries(groupedData)
+          .map(([month, count]) => ({
+            name: month,
+            value: count,
+          }))
+          .sort((a, b) => getMonthIndex(a.name) - getMonthIndex(b.name));
+    
+        setPropertiesChartData(propertiesChartData);
+      }
+    }, [properties, clients]);
+    
       
     
     

@@ -3,7 +3,7 @@ export default function Community({ data }) {
         <a href={`/Developer/${data.name.replaceAll(" ", "-")}`} style={{color: "#333"}} >
             <div style={{display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%", border: "1px solid #ccc"}} className="property">
                 <div style={{width: "35%", display: "flex", alignItems: "center", justifyContent: "center", borderRight: "1px solid #ccc"}}>
-                    <img src={"/api/file/" + data.logo} style={{maxWidth: "250px"}} alt="" />
+                    <img src={"/api/file/" + data.logo} style={{maxWidth: "250px", width: "100%"}} alt="" />
                 </div>
 
                 <div style={{width: "55%"}}>

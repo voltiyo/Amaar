@@ -55,17 +55,17 @@ export default function NewsAndArticles() {
                 <div style={{display: "flex", alignItems: "center", justifyContent: "space-around", margin: "150px 0px", flexDirection: windowSize >= 800 ? "row" : "column"}}>
                     <div style={{width: windowSize >= 800 ? "60%" : "90%"}}>
                         <h3 style={{color: "#333"}}>News And Articles ({articles.length} Records Found)</h3>
-                        <ul style={{display: "flex", flexDirection: "column", alignItems: "center",justifyContent: "start", width: "100%"}}>
+                        <div style={{display: "flex", flexDirection: "column", alignItems: "center",justifyContent: "center", width: "100%"}}>
                             {
                                 articles.map((article, index) => (
-                                    <div key={index}>
+                                    <div key={index} style={{width: "100%"}}>
                                         <ArticleCompo data={article} index={index}/>
                                     </div>
                                 ))
                             }
-                        </ul>
+                        </div>
                     </div>
-                    <div style={{width: windowSize >= 800 ? "25%" : "90%"}}>
+                    <div style={{width: windowSize >= 800 ? "25%" : "90%", marginTop: "50px"}}>
                         <div style={{position: "sticky", top: "0px", boxShadow: "0 .5rem 1rem rgb(0 0 0 / .15)", padding: "10px", borderRadius: "10px"}}>
                             <h3>Recent Projects</h3>
                             {

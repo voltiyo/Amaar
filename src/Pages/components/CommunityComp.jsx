@@ -1,9 +1,17 @@
+import { useEffect, useState } from "react"
+
 export default function CommunityComp({ data }) {
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+    useEffect(() => {
+        window.addEventListener("resize", () => {
+            setScreenWidth(window.innerWidth);
+        })
+    }, [])
     return (
         <a href={`/Community/${data.name.replaceAll(" ", "-")}`} style={{color: "#333"}} >
-            <div style={{display: "flex", alignItems: "center", justifyContent: "center",gap: "1.75rem", width: "100%", border: "1px solid #ccc"}} className="property">
-                <div style={{height: "100%",width: "fit-content", display: "flex", alignItems: "center", justifyContent: "center", borderRight: "1px solid #ccc", borderRadius: "10px", overflow: "hidden"}}>
-                    <img src={`/api/file/${data.image}`} style={{height: "100%", objectFit: "cover"}} />
+            <div style={{display: "flex", flexDirection: screenWidth >= 800 ? "row" : "column", alignItems: "center", overflow: "hidden", justifyContent: "center",gap: "1.75rem", width: "100%", border: "1px solid #ccc", height: screenWidth <= 800 && "500px"}} className="property">
+                <div style={{height: "100%", minHeight: "250px",width: "100%", display: "flex", alignItems: "center", justifyContent: "center", borderRight: "1px solid #ccc", borderRadius: "10px", overflow: "hidden"}}>
+                    <img src={`/api/file/${data.image}`} style={{height: screenWidth >= 800 ? "100%" : "", width: screenWidth >= 800 && "100%", objectFit: "cover"}} />
                 </div>
 
                 <div style={{width: "60%"}}>

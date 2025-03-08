@@ -21,7 +21,7 @@ export default function Property( data ) {
     }, [])
     return (
         <a href={`/Projects/${data.data.title.replaceAll(" ", "-")}`}  style={{ borderRadius: "15px", width: "95%"}}>
-            <div style={{display: "flex",alignItems: windowSize >= 800 ? "center" : "start", border: "1px solid #ccc",width: "95%", height: windowSize >= 800 ? "250px": "fit-content", flexDirection: windowSize >= 800 ? "row": "column"}} className="property">
+            <div style={{display: "flex",alignItems: windowSize >= 800 ? "center" : "start", border: "1px solid #ccc",width: "95%", height: windowSize >= 800 ? "250px": "fit-content", paddingBottom: windowSize <= 800 && "20px", flexDirection: windowSize >= 800 ? "row": "column", overflow: "hidden"}} className="property">
                 <div style={{height: windowSize >= 800 ? "100%" : "fit-content", width: windowSize >= 800 ? "40%" : "100%", overflow: "hidden"}}>
                     <img src={`/api/file/${JSON.parse(data.data.images.replace("{", "[").replace("}","]"))[0]}`} style={{borderRadius: "10px", height: "100%", width: "460px", objectFit: "cover"}} alt="" />
                 </div>

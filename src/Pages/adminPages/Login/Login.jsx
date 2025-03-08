@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from "react";
 
 async function Login() {
     document.querySelector(".Error").textContent = ""
@@ -29,11 +29,17 @@ async function Login() {
 
 
 export default function AdminLogin() {
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
+    useEffect(() => {
+        window.addEventListener("resize", () => {
+            setWindowSize(window.innerWidth);
+        })
+    }, [])
     return (
         <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#001F3F"}}>
-            <div style={{width: "40%", height: "50%", display: "flex", alignItems: "center",flexDirection: "column", justifyContent: "center", background: "#003569", borderRadius: "10px", boxShadow: "0px 0px 46px -3px #000"}}>
+            <div style={{width: windowSize >= 800 ? "40%" : "90%", height: windowSize >= 800 ? "50%" : "40%", overflow: "scroll", display: "flex", alignItems: "center",flexDirection: "column", justifyContent: "center", background: "#003569", borderRadius: "10px", boxShadow: "0px 0px 46px -3px #000"}}>
                 <div style={{width: "50%",display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", flexDirection: "column"}} onFocus={(e) => { e.target.style.borderColor = "#fff" }} onBlur={(e) => { e.target.style.borderColor = "#003569" }}>
-                    <h2 style={{margin: "0px", color: "#fff", fontSize: "2rem"}}>Admin Login</h2>
+                    <h2 style={{margin: "0px", color: "#fff", fontSize: "2rem", textWrap: "nowrap"}}>Admin Login</h2>
                     <p className="Error" style={{textAlign: "center", color: "red"}}></p>
                     <input type="text" placeholder="Email" id="email" style={{width: "100%", borderRadius: "7px", outline: "none", border: "2px solid #003569", color: "#727272", fontSize: "1rem", fontWeight: "600", padding: "5px 10px", transition: "all .5s"}} />
                     <input type="password" placeholder="Password" id="password" style={{width: "100%", borderRadius: "7px", outline: "none", border: "2px solid #003569", color: "#727272", fontSize: "1rem", fontWeight: "600", padding: "5px 10px", transition: "all .5s"}} />

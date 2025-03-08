@@ -3,7 +3,15 @@ import { useState, useEffect } from "react";
 import Search from "../components/Search";
 import Location from "../components/Location";
 import Footer from "../components/Footer"
-
+function convertToM2(area) {
+    if (area === 'N/A') return 0; 
+    let value = area.replace(/[^\d.-]/g, ''); 
+    if (area.includes("KM²") || area.includes("km²")) {
+      return parseFloat(value) * 1000000; 
+    } else {
+      return parseFloat(value); 
+    }
+  }
 export default function Locations() {
     const [Community, setCommunity] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -69,13 +77,12 @@ export default function Locations() {
         if (SortBy == "Name") {
             setCommunity([...Community].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
         }
-        else if (SortBy === "Properties") {
-            setCommunity([...Community].sort((a, b) => b.projects.length - a.projects.length))
+        else if (SortBy === "Area") {
+            setCommunity([...Community].sort((a, b) => {let Area1 = convertToM2(a.area); let Area2 = convertToM2(b.area); return Area2 - Area1}))
         }
         
         
     }, [SortBy])
-
 
     return (
         <div>
@@ -89,7 +96,7 @@ export default function Locations() {
                         <li>Locations</li>
                     </ul>
                 </div>
-                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem"}}>
+                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem", flexWrap: "wrap"}}>
                     <div className="section-redirect " style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}} onClick={() => window.location.href = "/Offplan-Projects"}>
                         <i className="ri-building-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Projects</p>
@@ -139,11 +146,10 @@ export default function Locations() {
                         <h4>Locations ({Community.length})</h4>
                         <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(248,249,250) ", border: "1px solid #dee2e6", padding: "20px ", borderRadius: "10px"}}>
                             <div >
-                                <select defaultValue={"Sort By"} style={{outline: "none", border: "1px solid #dee2e6", cursor: "pointer", padding: "10px", fontSize: "1rem", borderRadius: "5px"}}>
+                                <select defaultValue={"Sort By"} onChange={(e) => { setSortBy(e.target.value) }} style={{outline: "none", border: "1px solid #dee2e6", cursor: "pointer", padding: "10px", fontSize: "1rem", borderRadius: "5px"}}>
                                     <option value="Sort By">Sort By</option>
+                                    <option value="Name">Name</option>
                                     <option value="Area">Area</option>
-                                    <option value="Density">Density</option>
-                                    <option value="Population">Population</option>
                                 </select>
                             </div>
                             <Search data={Community} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()) }}/>

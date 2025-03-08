@@ -104,7 +104,7 @@ export default function Developers() {
     return (
         <div style={{padding: "10px 60px", color: "#fff"}}>
             <h1 style={{color: "#fff", textDecoration: "underline"}}>Developers</h1>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minWidth: "900px"}}>
                 <div>
                     <span style={{margin: "0px 10px", fontWeight: "600"}}>Developers per page:</span> 
                     <select name="" id="" value={DevelopersPerPage} onChange={(value) => {setDevelopersPerPage(value.target.value)}}>

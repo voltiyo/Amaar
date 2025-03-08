@@ -90,7 +90,7 @@ export default function Communities() {
                         <li>Communities</li>
                     </ul>
                 </div>
-                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem"}}>
+                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem", flexWrap: "wrap"}}>
                     <div className="section-redirect " style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}} onClick={() => window.location.href = "/Offplan-Projects"}>
                         <i className="ri-building-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Projects</p>
@@ -110,14 +110,14 @@ export default function Communities() {
                 </div>
 
 
-                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "4rem", flexDirection : windowSize >= 800 ? "row" : "column"}} >
+                <div style={{display: "flex", justifyContent: "center", padding: windowSize >= 800 ? "2rem": "10px", gap: "4rem", flexDirection : windowSize >= 800 ? "row" : "column"}} >
                     
                     <div style={{width: windowSize >= 800 ? "25%" : "100%", }}>
                         <div style={{position: "sticky", top: "0px", boxShadow: "0 .5rem 1rem rgb(0 0 0 / .15)", padding: "10px", borderRadius: "10px"}}>
                             <h3>Recent Projects</h3>
                             {
                                 recentProperties.length > 0 && recentProperties.map((property, index) => (
-                                    <a href={`/Projets/${property.title.replaceAll(" ", "-")}`} key={index} style={{color: "#727272",display: "flex", alignItems:" center ", gap: "10px", borderBottom: index !== recentProperties.length - 1 ? "1px dashed  #ccc" : "", padding: "10px"}}>
+                                    <a href={`/Projects/${property.title.replaceAll(" ", "-")}`} key={index} style={{color: "#727272",display: "flex", alignItems:" center ", gap: "10px", borderBottom: index !== recentProperties.length - 1 ? "1px dashed  #ccc" : "", padding: "10px"}}>
                                         <div>
                                             <img src={`/api/file/${JSON.parse(property.images.replace("{", "[").replace("}","]"))[0]}`} width={120} height={75} alt="" style={{borderRadius: "5px"}}/>
                                         </div>

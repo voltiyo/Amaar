@@ -98,7 +98,7 @@ export default function Communities() {
     return (
         <div style={{padding: "10px 60px", color: "#fff"}}>
             <h1 style={{color: "#fff", textDecoration: "underline"}}>Communities</h1>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minWidth: "500px"}}>
                 <div>
                     <span style={{margin: "0px 10px", fontWeight: "600"}}>Communities per page:</span> 
                     <select name="" id="" value={CommunitiesPerPage} onChange={(value) => {setCommunitiesPerPage(value.target.value)}}>

@@ -65,7 +65,7 @@ export default function Offplan() {
                         <li>Offplan Projects</li>
                     </ul>
                 </div>
-                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem"}}>
+                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem", flexWrap: "wrap"}}>
                     <div className="section-redirect active" style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}>
                         <i className="ri-building-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Projects</p>
@@ -85,12 +85,12 @@ export default function Offplan() {
                 </div>
 
 
-                <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "3rem", flexDirection: screenWidth >= 800 ? "row" : "column"}} >
+                <div style={{display: "flex", justifyContent: "center", padding: screenWidth >= 800 ? "2rem" : ".5rem", gap: "3rem", flexDirection: screenWidth >= 800 ? "row" : "column"}} >
                     
-                    <div style={{width: screenWidth >= 800 ? "25%" : "100%"}}>
+                    <div style={{width: screenWidth >= 800 ? "25%" : "100%", transform: screenWidth <= 800 && "scale(.8)"}}>
                         <Filter />
                     </div>
-                    <div style={{width: screenWidth >= 800 ? "60%" : "100%", display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "start"}}>
+                    <div style={{width: screenWidth >= 800 ? "60%" : "100%", transform: screenWidth <= 800 && "scale(.8)", display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "start"}}>
                         <h4>Offplan Properties ({properties.length})</h4>
                         <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(248,249,250) ", border: "1px solid #dee2e6", padding: "20px ", borderRadius: "10px"}}>
                             <div >
