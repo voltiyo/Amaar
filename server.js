@@ -766,7 +766,7 @@ app.post("/api/SaveDevEdit", upload.single("image"), async ( req , res ) => {
   const client = await pool.connect();
   try {
     if (req.file) {
-      await client.query("UPDATE developers SET name = $2, contact_info = $3, website  = $4, description = $5, logo = $5 WHERE id = $1 RETURNING *", [req.body.ID, req.body.name, req.body.contact, req.body.website, req.body.description, req.file.filename])
+      await client.query("UPDATE developers SET name = $2, contact_info = $3, website  = $4, description = $5, logo = $6 WHERE id = $1 RETURNING *", [req.body.ID, req.body.name, req.body.contact, req.body.website, req.body.description, req.file.filename])
     }
     else {
       await client.query("UPDATE developers SET name = $2, contact_info = $3, website  = $4, description = $5 WHERE id = $1 RETURNING *", [req.body.ID, req.body.name, req.body.contact, req.body.website, req.body.description])
