@@ -70,7 +70,9 @@ export default function PropertyPage() {
     }, [property])
 
     useEffect(() => {
-        document.querySelector("#propMobileMenu").style.transform = "translateY(-250px)"
+        if (windowSize <= 800) {
+            document.querySelector("#propMobileMenu").style.transform = "translateY(-250px)"
+        }
     }, [page])
     
     useEffect(() => {

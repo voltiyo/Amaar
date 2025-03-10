@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import PdfViwer from "../../components/PdfViewer"
+import ImageShower from "../../../images/ImageComponent";
 
 export default function Overview({ property, developer }) {
     const [states, setStates] = useState([])
@@ -128,25 +129,10 @@ export default function Overview({ property, developer }) {
                     </div>
                 </div>
                 {property.images && 
-                    <div style={{padding: " 10px 30px", border: "1px solid #ccc", borderRadius: "10px", width: "82%"}} id="propertyImageGallery">
-                        <h4 style={{color: "#333"}}>Image Gallery</h4>
-                        <div style={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>
-                        <div style={{width: "70%", height: "300px" , display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", borderRadius: "10px"}}>
-                            <img src={`/api/file/${JSON.parse(property.images.replace("{", "[").replace("}","]"))[0]}`} style={{width: "100%", borderRadius: "10px"}} />
-                        </div>
-                            {
-                                JSON.parse(property.images.replace("{", "[").replace("}","]"))?.length > 1 &&
-                                <div style={{width: "25%"}}>
-                                    {
-                                        JSON.parse(property.images.replace("{", "[").replace("}","]")).map((img, index) => (
-                                            <img src={`/api/file/${img}`} style={{width: "100%", borderRadius: "10px"}} />
-                                        ))
-                                    }
-                                </div> 
-                            }
-                            
-                        </div>
-                    </div>}
+                <div id="propertyImageGallery">
+                    <ImageShower images={JSON.parse(property.images.replace("{", "[").replace("}","]"))} />    
+                </div>
+                }
             </div>
         </div>
     )
