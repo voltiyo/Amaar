@@ -125,10 +125,10 @@ export default function Developers() {
                                             <span style={{display: "flex", alignItems: "center", gap: "5px", margin: "0px"}}>
                                                 <i className="ri-map-pin-line"></i>
                                                 <small>
-                                                    <p style={{margin: "0px", color: "#727272"}}>{locations.filter(location => parseInt(property.location) === location.id)[0].name}</p>
+                                                    <p style={{margin: "0px", color: "#727272"}}>{locations.filter(location => parseInt(property.location) === location.id)[0]?.name}</p>
                                                 </small>
                                             </span>
-                                            <h4 style={{color: "#001F3F", margin: "0px"}}>AED {property.price}</h4>
+                                            <h4 style={{color: "#001F3F", margin: "0px"}}>{property.price}</h4>
                                         </div>
                                     </a>
                                 ))

@@ -16,9 +16,9 @@ export default function Overview({ property, developer }) {
     
     useEffect(()  => {
         async function GetState() {
-            const resp = await fetch("/api/states");
+            const resp = await fetch("/api/locations");
             const data = await resp.json();
-            const sta = data.filter(st => st.id === parseInt(property.state))[0]
+            const sta = data.filter(st => st.id === parseInt(property.location))[0]
             setStates(sta)
         }
         GetState();
@@ -31,9 +31,7 @@ export default function Overview({ property, developer }) {
             const data = await resp.json();
             setPropertyFeatures([])
             for (let i = 0; i <= JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]")).length; i++) {
-               if (data[i].id === parseInt(JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]"))[i])) {
-                setPropertyFeatures(prev => [...prev, data[i]])
-               }
+                setPropertyFeatures(prev => [...prev, ...data.filter(feat => feat.id === JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]"))[i]  )])
             }
         }
         if (property.features) {

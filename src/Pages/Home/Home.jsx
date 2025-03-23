@@ -52,7 +52,7 @@ export default function Home() {
             const response = await fetch("/api/communities");
             const data = await response.json();
             setCommunities(data.slice(0, 6));    
-            setPostCommunities(data.slice(6, data.length))
+            setPostCommunities(data.slice(6, 12))
         }
         async function GetDevelopers() {
             const response = await fetch("/api/developers");
@@ -274,7 +274,7 @@ export default function Home() {
                         {
                             developer && developer.map((property, index) => {
                                 return (
-                                    <a href="" key={index} style={{textDecoration: "none"}}>
+                                    <a href={`/Developer/${property.name.replaceAll(" ", "-")}`} key={index} style={{textDecoration: "none"}}>
                                         <div style={{display: "flex",gap: "1rem", alignItems: "center", justifyContent: "start", width: "70%"}}>
                                             <div style={{border: "1px solid #dee2e6"}}>
                                                 <img src={"/api/file/" + property.logo} alt="" style={{maxWidth: "93px"}}/>
@@ -313,9 +313,11 @@ export default function Home() {
                         {
                             communities.map((community, index) => {
                                 return (
-                                    <div key={index} style={{backgroundImage: `url(/api/file/${community.image}`, width: "166px", height: "133px", position: "relative", borderRadius: "10px", backgroundSize: "cover", marginBottom: "20px"}}>
-                                        <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#001F3F", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
-                                    </div>
+                                    <a href={`/community/${community.name.replaceAll(" ", "-")}`}>
+                                        <div key={index} style={{backgroundImage: `url(/api/file/${community.image}`, width: "166px", height: "133px", position: "relative", borderRadius: "10px", backgroundSize: "cover", marginBottom: "20px"}}>
+                                            <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#001F3F", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
+                                        </div>
+                                    </a>
                                 )
                             })
                         }
@@ -328,7 +330,7 @@ export default function Home() {
                         {
                             postCommunities.map((postCom, index) => {
                                 return (
-                                    <a className="postCommunityAelement" href={postCom.url} key={index} style={{textDecoration: "none",padding: "6px 15px", borderRadius: "50px",color: "#757575" , border: "1px solid #fff", boxShadow: " 0 0 7px 0 #0000001f"}}>
+                                    <a className="postCommunityAelement" href={`/community/${postCom.name.replaceAll(" ", "-")}`} key={index} style={{textDecoration: "none",padding: "6px 15px", borderRadius: "50px",color: "#757575" , border: "1px solid #fff", boxShadow: " 0 0 7px 0 #0000001f"}}>
                                         {postCom.name}
                                     </a>
                                 )

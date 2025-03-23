@@ -11,7 +11,7 @@ export default function PropertyPageNavBar({page, setPage, logo}) {
     }
     
     return (
-        <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0px",position: "fixed", top: "0px", background: "#fff", zIndex: "30", width: "100%"}}>
+        <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0px",position: "fixed", top: "30px", background: "#fff", zIndex: "30", width: "100%"}}>
             {
                 logo && <img src={`/api/file/${logo}`} alt="" width="150" />
             }

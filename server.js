@@ -5,7 +5,6 @@ import pkg from 'pg';
 import dotenv from 'dotenv';
 import fs from "fs"
 import { fileURLToPath } from "url";
-import { log } from "console";
 
 dotenv.config();
 const storage = multer.diskStorage({
@@ -27,7 +26,6 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB file size limit
 });
 
 if (!fs.existsSync("uploads")) {
@@ -210,9 +208,73 @@ app.get("/api/agents", async ( req, res ) => {
   res.send(data.rows)
 })
 
+app.get("/api/test1", (req, res) => {
+	res.json("working fine")
+})
+
+app.post("/api/test", upload.fields([
+  {name: "files"},
+  {name: "LocationMapPreview"},
+  {name: "MasterPlanPreview"},
+  {name: "PaymentPlanPDF"},
+  {name: "FloorPlanPDF"},
+]),
+
+  async (req,res) => {
+    try{
+
+      const FormattedFeatures = []
+      for (const feature of JSON.parse(req.body.features)) {
+        FormattedFeatures.push(feature.value)
+      }
+      const title = req.body.title;
+      const description = req.body.description;
+      const price = req.body.price;
+      const status = req.body.status;
+      const size = req.body.size;
+      const bathrooms = parseInt(req.body.bathrooms) | 2;  
+      const bedrooms = parseInt(req.body.bedrooms) | 2;
+      const type = req.body.type;
+      const dev = req.body.developer_id;
+      const nearby_places = req.body.nearby_places;
+      const loca_desc = req.body.location_description;
+      const payplan = req.body.payment_plan;
+      const hand = req.body.handover;
+      const pay_desc = req.body.payment_plan_description;
+      const features_description = req.body.features_description;
+      const floor_plan_description = req.body.floor_plan_description;
+      const master_plan_description = req.body.master_plan_description;
+      const state = req.body.state;
+      const location_id = req.body.location_id;
+      const com_id = req.body.community_id
+      
+      const Images = []
+      for (const img of req.files.files) {
+        Images.push(img.filename)
+      }
+      const LocationMapPreview = req.files.LocationMapPreview[0].filename;
+      const MasterPlanPreview = req.files.MasterPlanPreview[0].filename;
+      const PaymentPlanPDF = req.files.PaymentPlanPDF[0].filename;
+      const FloorPlanPDF = req.files.FloorPlanPDF[0].filename;
+      
+      const client = await pool.connect();
+  
+      const query = "INSERT INTO properties VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, DEFAULT, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)"
+      const values = [title, description, price, type, status, bedrooms, bathrooms, size, com_id, location_id, JSON.stringify(FormattedFeatures), payplan, hand, features_description, FloorPlanPDF, floor_plan_description, pay_desc, LocationMapPreview, loca_desc, nearby_places, MasterPlanPreview, master_plan_description, Images, dev, PaymentPlanPDF, state]
+  
+      await client.query(query, values)
+      client.release()
+      res.send({ success: true })
+    } catch {
+      res.send({ success: false })
+    }
+})
+app.get("/api/test", ( req, res ) => {
+  res.send({success: true})
+})
 
 app.post("/api/create-property",upload.fields([
-    { name: "files", maxCount: 10 },
+    { name: "files", maxCount: 20 },
     { name: "MapPreview", maxCount: 1 },
     { name: "FloorPlanPdf", maxCount: 1 },
     { name: "PaymentPlanPdf", maxCount: 1 },
@@ -244,7 +306,7 @@ app.post("/api/create-property",upload.fields([
 }})
 app.post("/api/create-developer", upload.fields([{name: "logo", maxCount: 1},{name: "banner", maxCount: 1}]), async (req, res) => {
   try  {
-    const client = await pool.connect();
+    const client = await pool.connect(); 
     const uploads = req.files;
     const values = [req.body.name, req.body.contact, req.body.website, req.body.description, uploads.logo[0].filename, uploads.banner[0].filename];
 
@@ -487,6 +549,7 @@ app.post("/api/create-community", upload.single("file"), async ( req, res ) => {
     res.send({ success: true })
 
   } catch (err) {
+    console.log(err)
     res.send({ success: false })
   }
 })
@@ -810,7 +873,7 @@ app.post("/api/SaveLocaEdit", async ( req , res ) => {
 
 app.post("/api/SavePropEdit",
   upload.fields([
-    { name: "images", maxCount: 10 },
+    { name: "images", maxCount: 20 },
     {name: "locationmapperview", maxCount: 1},
     {name: "payment_plan_pdf", maxCount: 1},
     {name: "floor_plan_pdf", maxCount: 1},

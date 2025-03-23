@@ -132,10 +132,10 @@ export default function Locations() {
                                             <span style={{display: "flex", alignItems: "center", gap: "5px", margin: "0px"}}>
                                                 <i className="ri-map-pin-line"></i>
                                                 <small>
-                                                    <p style={{margin: "0px", color: "#727272"}}>{locations.filter(location => parseInt(property.location) === location.id)[0].name}</p>
+                                                    <p style={{margin: "0px", color: "#727272"}}>{locations.filter(location => parseInt(property.location) === location.id)[0]?.name}</p>
                                                 </small>
                                             </span>
-                                            <h4 style={{color: "#001F3F", margin: "0px"}}>AED {property.price}</h4>
+                                            <h4 style={{color: "#001F3F", margin: "0px"}}>{property.price}</h4>
                                         </div>
                                     </a>
                                 ))
@@ -157,7 +157,7 @@ export default function Locations() {
 
                         <div style={{display: "flex", width: "100%",flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px", marginTop: "50px"}}>
                             {
-                                paginatedCommunity && paginatedCommunity.map((property, index) => {
+                                paginatedCommunity && paginatedCommunity?.map((property, index) => {
                                     return(
                                         <div key={index} style={{width: "100%"}}>
                                             <Location data={property} index={index}/>

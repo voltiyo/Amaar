@@ -33,7 +33,7 @@ export default function Property( data ) {
                     <h4 href={`/Projects/${data.data.title}`} style={{color: "#757575", fontWeight: "600", margin: "0px"}}>{data.data.title}</h4>
                     <div style={{display: "flex", alignItems: "center", justifyContent: "center", color: "#757575", width: "fit-content", gap: "5px"}}>
                         <i className="ri-map-pin-line" style={{color: "#001F3F"}}></i>
-                        <p>{locations.length > 0 && locations.filter(location => parseInt(data.data.location) === location.id)[0].name}</p>
+                        <p>{locations.length > 0 && locations.filter(location => parseInt(data.data.location) === location.id)[0]?.name}</p>
                     </div>
                     <div style={{display: "flex", alignItems: windowSize >= 800 ? "center" : "start", justifyContent: "center", gap: "10px", flexDirection: windowSize >= 800 ? "row": "column"}}>
                         <div style={{display: "flex", alignItems: "center", justifyContent: "center",gap: "10px ", background: "#eee", padding: "5px 10px", borderRadius: "10px", color: "#727272"}}>

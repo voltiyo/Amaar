@@ -11,6 +11,7 @@ import Location from "./Location/Location";
 import Master from "./Master/Master"
 import GetInTouch from "./GetInTouch/GetInTouch";
 import Property from "../components/Property";
+import PropertiesPageMainNavigationBar from "../components/PropertiesPageMainNavigationBar";
 function ShowMenu() {
     if (document.querySelector("#propMobileMenu").style.transform === "translateY(-250px)") {
         document.querySelector("#propMobileMenu").style.transform = "translateX(0px)"
@@ -93,6 +94,9 @@ export default function PropertyPage() {
     return (
         <div style={{overflowX: "hidden", width: "100%"}}>
             <div style={{scrollBehavior: "smooth", overflow: "hidden", width: "100%"}}>
+                {
+                    windowSize >= 800 && <PropertiesPageMainNavigationBar />
+                }
                 { windowSize >= 800 && <PropertyPageNavBar page={page} setPage={setPage} logo={developer.logo} />}
                 {windowSize <= 800 && (
                     <div style={{background: "white", height: "40px", zIndex: "70", position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 20px"}}>
@@ -115,7 +119,7 @@ export default function PropertyPage() {
                     )
                 }
                 { property.images !== undefined && 
-                    <div className='services-title-container' style={{backgroundImage: `url(/api/file/${JSON.parse(property.images.replace("{", "[").replace("}","]"))[0]})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", height: "450px" }}>
+                    <div className='services-title-container' style={{backgroundImage: `url(/api/file/${JSON.parse(property.images.replace("{", "[").replace("}","]"))[0]})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", height: "600px" }}>
                         <h1 style={{textWrap: "wrap", width: "80%", textAlign: "center"}}>{property.title} - {developer.name}</h1>
                         <ul>
                             <li>Home</li>
@@ -134,7 +138,7 @@ export default function PropertyPage() {
                         { page === "master" && <Master property={property} /> }
                     </div>
                     <div style={{width: windowSize >= 800 ? "23%" : "90%", position: "relative"}}>
-                        <div style={{position: "sticky", top: "120px", marginBottom: "50px", transform: windowSize <= 800 && "scale(.7)"}}>
+                        <div style={{position: "sticky", top: "120px", marginBottom: "50px", transform: windowSize <= 800 ? "scale(.7)": "translateY(-100px)", zIndex: 10}}>
                             <GetInTouch />
                         </div>
                     </div>

@@ -60,7 +60,7 @@ export default function PropertiesCarousel() {
           }
         `}</style>
         {
-          elements.map( (element, index) => {
+          elements.length > 0 && elements.slice(0, 20).map( (element, index) => {
             return (
               <a
                 key={index}

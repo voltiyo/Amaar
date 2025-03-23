@@ -16,10 +16,10 @@ export default function Offplan() {
     const { country } = useParams()
     const [screenWidth, setScreenWidth] = useState(window.innerWidth)
     const itemsPerPage = 10;
-
-    const totalPages = Math.ceil(properties.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedProperties = properties.slice(startIndex, startIndex + itemsPerPage);
+    const [totalPages, setTotalPages] = useState(Math.ceil(properties.length / itemsPerPage))
+    const [startIndex, setStartIndex] = useState((currentPage - 1) * itemsPerPage)
+    const [paginatedProperties, setPaginatedProperties] = useState(properties.slice(startIndex, startIndex + itemsPerPage))
+    const [searchTerm, setSearchTerm] = useState("")
 
     useEffect(() => {
         window.addEventListener("resize", () => {
@@ -53,12 +53,22 @@ export default function Offplan() {
         window.scrollTo({ top: 300, behavior: "smooth" });
     },[currentPage])
     
+
+    useEffect(() => {
+        const filteredCommunity = properties.filter(prop => 
+            prop.title.toLowerCase().includes(searchTerm)
+        );
+        setTotalPages(Math.ceil(filteredCommunity.length / itemsPerPage));
+        setStartIndex((currentPage - 1) * itemsPerPage);
+        setPaginatedProperties(filteredCommunity.slice(startIndex, startIndex + itemsPerPage));
+    }, [properties, currentPage, searchTerm]);
+
     return (
         <div>
             <NavBar page={"offplan"}/>
             <div>
                 <div className='services-title-container'>
-                    <h1>Offplan Projects {country ? `in ${country}` : ""}</h1>
+                    <h1>Offplan Projects {country ? `in ${country.replaceAll("-", " ")}` : ""}</h1>
                     <ul>
                         <li>Home</li>
                         <li>/</li>
@@ -102,7 +112,7 @@ export default function Offplan() {
                                     <option value="Price Low to High">Price Low to High</option>
                                 </select>
                             </div>
-                            <Search data={properties}/>
+                            <Search data={properties} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()) }}/>
                         </div>
 
                         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px", marginTop: "50px", width: "100%"}}>

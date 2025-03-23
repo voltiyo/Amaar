@@ -8,11 +8,11 @@ export default function Amenities({property}) {
         async function GetFeatures() {
             const resp = await fetch("/api/features");
             const data = await resp.json();
+            console.log(JSON.parse(property.features))
             setPropertyFeatures([])
+            console.log(data)
             for (let i = 0; i <= JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]")).length; i++) {
-                if (data[i].id === parseInt(JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]"))[i])) {
-                setPropertyFeatures(prev => [...prev, data[i]])
-                }
+                setPropertyFeatures(prev => [...prev, ...data.filter(feat => feat.id === JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]"))[i])])
             }
         }
         if (property.features) {
@@ -20,7 +20,7 @@ export default function Amenities({property}) {
         }
 
     },[property])
-    
+    console.log(propertyFeatues)
     return (
         <div style={{padding: "20px", margin: "20px", borderRadius: "10px", border: "1px solid #eee"}}>
             <h2 style={{color: "#333"}}>Features And Amenities</h2>
