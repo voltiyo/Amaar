@@ -46,10 +46,12 @@ export default function NavBar({ page }) {
     
     return (
         <div style={{ display: "flex", justifyContent: "space-between", height: '10vh', position: "relative" }}>
-            <div style={{ width: "20%", margin: "0px 30px", position: "relative" }}>
-                <img src="/Navy blue logo.svg" alt="Amaar Properties" style={{width: "180px", position: "absolute", top: "-60px", left: "-50px"}} />
-            </div>
-            {windowSize >= 800 ? <div id="nav-a-container" style={{ display: "flex", gap: "1rem", justifyContent: "space-around",}}>
+            <a href="/">
+                <div style={{ width: "20%", margin: "0px 30px", position: "relative" }}>
+                    <img src="/Navy blue logo.svg" alt="Amaar Properties" style={{width: "180px", position: "absolute", top: "-60px", left: "-50px"}} />
+                </div>
+            </a>
+            {windowSize >= 800 ? <div id="nav-a-container" style={{ display: "flex", gap: "1rem", justifyContent: "space-around", marginRight: "20%"}}>
                 <a href="/" className={page === "home" ? "selected" : ""} style={{textWrap: "nowrap"}}>home</a>
                 {/* {<a href="/secondary-market-properties" className={page === "secondary" ? "selected" : ""}>secondary properties</a>} */}
                 <div style={{ textTransform: "uppercase", position: "relative" }}>

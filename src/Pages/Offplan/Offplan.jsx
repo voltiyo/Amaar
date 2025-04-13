@@ -13,13 +13,13 @@ import { useParams } from "react-router-dom";
 export default function Offplan() {
     const [properties, setProperties] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const { country } = useParams()
+    const { country, q } = useParams();
     const [screenWidth, setScreenWidth] = useState(window.innerWidth)
     const itemsPerPage = 10;
     const [totalPages, setTotalPages] = useState(Math.ceil(properties.length / itemsPerPage))
     const [startIndex, setStartIndex] = useState((currentPage - 1) * itemsPerPage)
     const [paginatedProperties, setPaginatedProperties] = useState(properties.slice(startIndex, startIndex + itemsPerPage))
-    const [searchTerm, setSearchTerm] = useState("")
+    const [searchTerm, setSearchTerm] = useState(q ? q.replaceAll("-", " ").toLowerCase() : "")
 
     useEffect(() => {
         window.addEventListener("resize", () => {
@@ -55,12 +55,14 @@ export default function Offplan() {
     
 
     useEffect(() => {
-        const filteredCommunity = properties.filter(prop => 
-            prop.title.toLowerCase().includes(searchTerm)
-        );
-        setTotalPages(Math.ceil(filteredCommunity.length / itemsPerPage));
-        setStartIndex((currentPage - 1) * itemsPerPage);
-        setPaginatedProperties(filteredCommunity.slice(startIndex, startIndex + itemsPerPage));
+        if (properties.length > 0) {
+            const filteredCommunity = properties?.filter(prop => 
+                prop.title.toLowerCase().includes(searchTerm)
+            );
+            setTotalPages(Math.ceil(filteredCommunity.length / itemsPerPage));
+            setStartIndex((currentPage - 1) * itemsPerPage);
+            setPaginatedProperties(filteredCommunity.slice(startIndex, startIndex + itemsPerPage));
+        }
     }, [properties, currentPage, searchTerm]);
 
     return (
@@ -98,7 +100,7 @@ export default function Offplan() {
                 <div style={{display: "flex", justifyContent: "center", padding: screenWidth >= 800 ? "2rem" : ".5rem", gap: "3rem", flexDirection: screenWidth >= 800 ? "row" : "column"}} >
                     
                     <div style={{width: screenWidth >= 800 ? "25%" : "100%", transform: screenWidth <= 800 && "scale(.8)"}}>
-                        <Filter />
+                        <Filter setProps={setProperties}  />
                     </div>
                     <div style={{width: screenWidth >= 800 ? "60%" : "100%", transform: screenWidth <= 800 && "scale(.8)", display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "start"}}>
                         <h4>Offplan Properties ({properties.length})</h4>
@@ -112,16 +114,22 @@ export default function Offplan() {
                                     <option value="Price Low to High">Price Low to High</option>
                                 </select>
                             </div>
-                            <Search data={properties} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()) }}/>
+                            <Search value={q} data={properties} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()) }}/>
                         </div>
 
                         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px", marginTop: "50px", width: "100%"}}>
                             {
-                                paginatedProperties && paginatedProperties.map((property, index) => {
+                                paginatedProperties.length > 0 ? paginatedProperties.map((property, index) => {
                                     return(
                                         <Property data={property} key={index}/>
                                     )
                                 })
+                                :
+                                (
+                                    <p>
+                                        No Property Found
+                                    </p>
+                                )
                             }
                             <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
                                 <button disabled={currentPage === 1} onClick={() => {setCurrentPage(currentPage - 1)}}>

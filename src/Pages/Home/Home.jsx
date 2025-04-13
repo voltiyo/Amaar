@@ -46,18 +46,18 @@ export default function Home() {
         async function GetStates() {
             const response = await fetch("/api/states");
             const data = await response.json();
-            setStates(data.slice(0, 4));
+            setStates(data.slice(0, 3));
         }
         async function GetComs() {
             const response = await fetch("/api/communities");
             const data = await response.json();
-            setCommunities(data.slice(0, 6));    
-            setPostCommunities(data.slice(6, 12))
+            setCommunities(data.slice(0, 12));    
+            setPostCommunities(data.slice(12, 18))
         }
         async function GetDevelopers() {
             const response = await fetch("/api/developers");
             const data = await response.json();
-            setDevelopers(data.slice(0, 9));    
+            setDevelopers(data);    
         }
         GetDevelopers();
         GetComs();
@@ -96,34 +96,23 @@ export default function Home() {
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "start", alignItems: "center", gap: "1rem" }}>
                                     <select id="home-dropdown">
-                                        <option value="Property Type" defaultValue={""}>Property Type</option>
-                                        <option value="Apartment">Apartment</option>
-                                        <option value="Office Space">Office Space</option>
-                                        <option value="Retail Space">Retail Space</option>
-                                        <option value="Townhouse">Townhouse</option>
-                                        <option value="Villa">Villa</option>
+                                        {
+                                            states.map((state, index) => (
+                                                <option key={index} value={state.name}>{state.name}</option>
+                                                
+                                            ))
+                                        }
                                     </select>
                                     <input type="text" id="home-drop-input" placeholder="City Neighboorhood, Community" />
-                                    <button style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", padding: "1.1rem 1rem", fontSize: "1rem", background: "#001F3F", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+                                    <button style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", padding: "1.1rem 1rem", fontSize: "1rem", background: "#001F3F", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}
+                                        onClick={() => {
+                                            window.location.href = `/Offplan-projects/${document.querySelector("#home-dropdown").value}/${document.querySelector("#home-drop-input").value.replaceAll(" ", "-")}`
+                                        }}
+                                    >
                                         <i className="fa-solid fa-magnifying-glass"></i>
                                         Search
                                     </button>
                                 </div>
-                            </div>
-                            <div className="agents">
-                                <div className="agent-container">
-                                    <img src="/teams/agent1.webp" className="agent" alt="" />
-                                </div>
-                                <div className="agent-container">
-                                    <img src="/teams/agent2.webp" className="agent" alt="" />
-                                </div>
-                                <div className="agent-container">
-                                    <img src="/teams/agent3.webp" className="agent" alt="" />
-                                </div>
-                                <div className="agent-container">
-                                    <img src="/teams/agent5.webp" className="agent" alt="" />
-                                </div>
-                                <p style={{color: "#757575", transform: "translateX(2rem)"}}>50+ Agents. <a href="/Our-Team" style={{textDecoration: "none", color: "#001F3F"}}>See All Listings</a></p>
                             </div>
 
                         </div>
@@ -136,13 +125,13 @@ export default function Home() {
                     <img src="/banner.webp" alt="" style={{objectFit: "cover", height: "100%", maxWidth: "641px"}}/>
                 </div>}
             </div>
-            <div style={{height: "fit-content", display: "flex", alignItems: "center",justifyContent: "center" ,paddingBottom: "50px", background: "#e5e5e5"}}>
-                <div style={{ margin: "0", display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "center"}} >
+            <div style={{height: "fit-content", display: "flex", paddingLeft: "30px", alignItems: "start",justifyContent: "start" ,paddingBottom: "50px", background: "#e5e5e5"}}>
+                <div style={{ margin: "0", display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "start", width: "100%"}} >
                     <div style={{marginTop: "3rem", marginBottom: "1rem"}}>
                         <h1 style={{color: "#2b3b3a", margin: "0px"}}>Offplan Projects</h1>
                         <p style={{color: "rgb(0 0 0 / .5)", marginTop: "0px"}}>New off-plan developments</p>
                     </div>
-                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: windowSize >= 800 ? "1rem" : "0rem", flexWrap: "wrap" }}> 
+                    <div style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: windowSize >= 800 ? "1rem" : "0rem", flexWrap: "wrap" }}> 
                         {
                             states.map((state, index) => {
                                 return (
@@ -190,7 +179,7 @@ export default function Home() {
                         <small style={{color: "#6c757d", fontWeight: "700"}}>BUY A HOME</small>
                         <h1 style={{textWrap: "wrap", maxWidth: "332px", color: "#2b3b3a", margin: "0px", marginBottom: windowSize >= 800 && "15px", fontSize: windowSize >= 800 ? "" : "18px"}}>Find, Buy & Own Your Dream Home</h1>
                         {windowSize >= 800 && <p style={{color: "#757575", textWrap: "wrap", maxWidth: "332px"}}>Explore Apartments, Villas, Penthouses, Mansions and more at service.</p>}
-                        <a href="/Offplan-Projects">
+                        <a href="/Services">
                         <button style={{
                             background: "#001F3F",
                             color: "#fff",
@@ -215,7 +204,7 @@ export default function Home() {
                             <p style={{color: "#757575", textWrap: "wrap", maxWidth: "332px"}}>
                             The key selection of refined lifestyle, where you will find an exclusive collection of rental properties.
                         </p>}
-                        <a href="/Offplan-Projects">
+                        <a href="/Services">
                         <button style={{
                             background: "#001F3F",
                             color: "#fff",
@@ -233,34 +222,7 @@ export default function Home() {
                         <img src="/rent.webp" alt="" style={{width: "100%", borderRadius: "10px"}}/>
                     </div>
                 </div>
-                <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "3rem", placeSelf: "start",flexDirection: windowSize >= 800 ? "row" : "column"}}>
-                    <div style={{width: "50%"}}>
-                        <img src="/holidayhome.webp" alt="" style={{width: "100%", borderRadius: "10px"}}/>
-                    </div>
-                    <div>
-                        <small style={{color: "#6c757d", fontWeight: "700"}}>Escape to Paradise</small>
-                        <h1 style={{textWrap: "wrap", maxWidth: "332px", color: "#2b3b3a", margin: "0px", marginBottom: windowSize >= 800 && "15px", fontSize: windowSize >= 800 ? "" : "18px"}}>
-                            Discover Your Dream Holiday Home
-                        </h1>
-                        {windowSize >= 800 &&
-                            <p style={{color: "#757575", textWrap: "wrap", maxWidth: "332px"}}>
-                            Indulge in luxurious getaways with our curated selection of holiday homes, perfect for unforgettable vacations.
-                        </p>}
-                        <a href="//Offplan-Projects">
-                        <button style={{
-                            background: "#001F3F",
-                            color: "#fff",
-                            border: "none",
-                            padding: "10px 20px",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            transition: "all 500ms",
-                            fontSize: "1.25rem"
-                        }} >
-                            Find More
-                        </button></a>
-                    </div>
-                </div>
+                
             </div>
 
 
@@ -270,20 +232,21 @@ export default function Home() {
                         <h2 style={{color: "#2b3b3a", fontWeight: "700", marginBottom: "0px"}}>Top Developers in UAE</h2>
                         <h4 style={{color: "rgb(0 0 0 / .5)", fontWeight: "500", marginTop: "0px"}}>Real Estate in Popular Developers</h4>
                     </div>
-                    <div style={{display: "grid", gap: "1rem", padding: "1rem", gridTemplateColumns: "repeat(auto-fill, minmax(200px,1fr))", width: "80%", marginLeft: "3rem", boxShadow: " 0 1px 4px 0 rgb(153 154 155 / 42%)", zIndex: "10", background: "#fff", borderRadius: "8px"}}>
+                    <div style={{display: "grid", gap: "1rem", padding: "1rem", gridTemplateColumns: "repeat(3, 1fr)", width: "80%", marginLeft: "3rem", boxShadow: " 0 1px 4px 0 rgb(153 154 155 / 42%)", zIndex: "10", background: "#fff", borderRadius: "8px"}}>
                         {
-                            developer && developer.map((property, index) => {
+                            developer && developer.sort((a,b) => { return b.projects.length -  a.projects.length }).slice(0, 6).map((property, index) => {
+                                
                                 return (
                                     <a href={`/Developer/${property.name.replaceAll(" ", "-")}`} key={index} style={{textDecoration: "none"}}>
                                         <div style={{display: "flex",gap: "1rem", alignItems: "center", justifyContent: "start", width: "70%"}}>
                                             <div style={{border: "1px solid #dee2e6"}}>
-                                                <img src={"/api/file/" + property.logo} alt="" style={{maxWidth: "93px"}}/>
+                                                <img src={"/api/file/" + property.logo} alt="" style={{width: "100px"}}/>
                                             </div>
                                             <div>
                                                 <h4 style={{margin: "0px", color: "#2b3b3a"}}>
                                                     {property.name}
                                                 </h4>
-                                                <small style={{margin: "0px", color: "#6c757d "}}>{property.count}</small>
+                                                <small style={{margin: "0px", color: "#6c757d "}}>{property.projects.length}</small>
                                             </div>
                                         </div>
                                     </a>
@@ -309,7 +272,7 @@ export default function Home() {
                         <h2 style={{color: "#2b3b3a", fontWeight: "700", marginBottom: "0px"}}>Top Communities in UAE</h2>
                         <h4 style={{color: "rgb(0 0 0 / .5)", fontWeight: "500", marginTop: "0px"}}>Check out the top Communities</h4>
                     </div>
-                    <div style={{display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px,1fr))",maxWidth: "80%",placeSelf: "center",justifyContent: "center",alignItems: "center", gap: "1.5rem", marginBottom: "50px"}}>
+                    <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)",maxWidth: "80%",placeSelf: "center",justifyContent: "center",alignItems: "center", gap: "1.5rem", marginBottom: "50px"}}>
                         {
                             communities.map((community, index) => {
                                 return (

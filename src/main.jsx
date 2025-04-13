@@ -46,6 +46,8 @@ root.render(
       <Route path="/Privacy-Policy" element={<Privacy />}></Route>
       <Route path="/Our-Team" element={<Team />}></Route>
       <Route path="/Offplan-Projects" element={<Offplan />}></Route>
+      <Route path="/Offplan-Projects/:country" element={<Offplan />} />
+      <Route path="/Offplan-Projects/:country/:q" element={<Offplan />} />
       <Route path="/Projects/:propertyTitle" element={<PropertyPage />}></Route>
       {/*<Route path="/secondary-market-properties" element={<SecondaryMarketProperties />}></Route>*/}
       <Route path="/News-and-Articles" element={<NewsAndArticles />}></Route>
@@ -57,7 +59,6 @@ root.render(
       <Route path="/Community/:Community" element={<CommunityPage />}></Route>
       <Route path="/Locations" element={<Locations />}></Route>
       <Route path="/Locations/:loca" element={<LocationPage />}></Route>
-      <Route path="/Offplan-Projects/:country" element={<Offplan />} />
       <Route path="/Admin/Login" element={<AdminLogin />}></Route>
 
       <Route element={<ProtectedRoutes />}>
