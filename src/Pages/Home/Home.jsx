@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react"
 import "./Home.css"
 import PropertiesCarousel from "../components/propertiesCarousel.jsx"
 import Footer from "../components/Footer.jsx"
+import Carousel from "../components/Caroussel.jsx"
 
 
 
@@ -163,6 +164,17 @@ export default function Home() {
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                         <PropertiesCarousel />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style={{padding: "2rem"}}>
+                    <div style={{ marginLeft: "4rem"}}> 
+                        <h2 style={{color: "#2b3b3a", fontWeight: "700", marginBottom: "0px"}}>Browse by property type</h2>
+                        <h4 style={{color: "rgb(0 0 0 / .5)", fontWeight: "500", marginTop: "0px"}}>Handpicked projects for you</h4>
+                    </div>
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <Carousel />
                     </div>
                 </div>
             </div>

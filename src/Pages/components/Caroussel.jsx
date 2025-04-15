@@ -1,101 +1,98 @@
-import React, { useState } from 'react';
-import './Caroussel.css'; // Ensure to include the corresponding CSS
+import { useEffect, useState } from "react";
+import "./propertiesCarousel.css"
 
 
-const CarouselLeftArrow = ({ onClick }) => (
-  <a href="#" className="carousel__arrow carousel__arrow--left" onClick={onClick}>
-    <span className="fa fa-2x fa-angle-left" />
-  </a>
-);
-
-const CarouselRightArrow = ({ onClick }) => (
-  <a href="#" className="carousel__arrow carousel__arrow--right" onClick={onClick}>
-    <span className="fa fa-2x fa-angle-right" />
-  </a>
-);
-
-const CarouselIndicator = ({ index, activeIndex, onClick }) => (
-  <li>
-    <a
-      className={index === activeIndex ? "carousel__indicator carousel__indicator--active" : "carousel__indicator"}
-      onClick={() => onClick(index)}
-    />
-  </li>
-);
-
-
-const Carousel = ({ slides }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const goToSlide = (index) => {
-    setActiveIndex(index);
-  };
+function ScrollRight() {
+  const container = document.querySelector("#type-carousel-container");
   
-  const goToPrevSlide = (e) => {
-    document.querySelector(".carousel__slides").scrollBy({ left: -450, behavior: "smooth" });
-    e.preventDefault();
-    setActiveIndex((prevIndex) => (prevIndex === 0 ? slides.length - 1 : prevIndex - 1));
-  };
-  
-  const goToNextSlide = (e) => {
-    document.querySelector(".carousel__slides").scrollBy({ left: 450, behavior: "smooth" });
-    e.preventDefault();
-    setActiveIndex((prevIndex) => (prevIndex === slides.length - 1 ? 0 : prevIndex + 1));
-  };
+  if (!container) return; // Ensure the element exists
 
+  const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+  if (container.scrollLeft >= maxScrollLeft) {
+    // Reset to the start when reaching the end
+    container.scrollTo({ left: 0, behavior: "smooth" });
+  } else {
+    // Move right by 290px
+    container.scrollBy({ left: 280, behavior: "smooth" });
+  }
+}
+
+function ScrollLeft() {
+  const container = document.querySelector("#type-carousel-container");
+
+  if (!container) return;
+
+  if (container.scrollLeft <= 0) {
+    // Go to the max scroll when reaching the start
+    container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
+  } else {
+    // Move left by 290px
+    container.scrollBy({ left: -280, behavior: "smooth" });
+  }
+}
+
+
+export default function Carousel() {
+  const [elements, setElements] = useState([])
+
+  useEffect(() => {
+    async function GetProperties() {
+      const response = await fetch("/api/properties");
+      const data = await response.json();
+      const sorted = Object.groupBy(data, prop => prop.type)
+      setElements(Object.entries(sorted));
+    }
+    GetProperties();
+  }, [])
+  
+  
   return (
-    <div className="carousel" style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", paddingBottom: "20px"}}>
-      <CarouselLeftArrow onClick={goToPrevSlide} />
-      <ul className="carousel__slides" style={{display: "flex", gap: "30px", overflow: "auto", scrollbarWidth: "none", msOverflowStyle: "none", width: "95%"}}>  
-          <style>{`
-        ul::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-        {slides.map((slide, index) =>{
-          return (
-            <li key={index} className={index === activeIndex ? "carousel__slide carousel__slide--active" : "carousel__slide"} style={{height: "fit-content", width: "fit-content", borderRadius: "10px", boxShadow: "0px 5px 5px 5px #0000001a", marginBottom: "50px"}}>
-            <div style={{height: "461px", width: "408px"}}>
-              <div style={{position: "relative", width: "408px", height: "212px"}}>
-                <img src={`/api/file/${JSON.parse(slide.images.replace("{","[").replace("}", "]"))}`} alt="" style={{width: "408px", borderRadius: "10px"}} />
-                <div style={{position: "absolute"}} className='featured-img-span'>
-                  <p>{slide.name}</p>
-                </div>
-              </div>
-              <div style={{padding: "20px"}}>
-                <h2 style={{color: "#2b3b3a", textAlign: "left", margin: "0px"}}>{slide.name}</h2>
-                <ul style={{display: "flex", flexDirection: "column", gap: "0px", borderBottom: ".5px solid #757575"}}>  
-                  <li style={{display: "flex", alignItems: "center", gap: "5px", height: "30px", justifyContent: "center"}}>
-                    <p style={{color: "#757575", fontSize: "1.5rem", textAlign: "center"}}>{slide.title}</p>
-                  </li>
-                  <li style={{display: "flex", alignItems: "center", gap: "5px", height: "30px"}}>
-                    <i className="fa-solid fa-bed" style={{color: "#001F3F"}}></i>
-                    <p style={{color: "#757575"}}>{slide.bedrooms} bedrooms</p>
-                  </li>
-                  <li style={{display: "flex", alignItems: "center", gap: "5px", height: "30px"}}>
-                    <i className="fa-solid fa-toilet" style={{color: "#001F3F"}}></i>
-                    <p style={{color: "#757575"}}>{slide.bathrooms} bathrooms</p>
-                  </li>
-                  <li style={{display: "flex", alignItems: "center", gap: "5px", height: "30px"}}>
-                    <i className="fa-solid fa-ruler" style={{color: "#001F3F"}}></i>
-                    <p style={{color: "#757575"}}>{slide.size}</p>
-                  </li>
-                </ul>
-                <div style={{display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
-                  <p style={{marginBottom: "0px", fontSize: "0.75rem", color: "#757575"}}>Price From</p>
-                  <p style={{margin: "0px", fontSize: "1.5rem", color: "#757575"}}>{slide.price}</p>
-                </div>
-              </div>
-            </div>
-          </li>
-
-          )
-        } 
-        )}
-      </ul>
-      <CarouselRightArrow onClick={goToNextSlide} />
+    <div style={{ width: "80%",height: "250px", display: "flex", justifyContent: "center", alignItems: "center"}} >
+      <div style={{cursor: "pointer", background: "#001F3F", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollLeft}>
+        <i className="fa-solid fa-arrow-left" style={{color: "#fff"}}></i>
+      </div>
       
-    </div>
-  );
-};
+      <div id="type-carousel-container" style={{display: "flex",margin: "0px 15px", alignItems: "center", position: "relative", justifyContent: "center", overflow: "scroll", gap: "10px", width: "40%", paddingLeft: "950px", paddingRight: "50px", scrollbarWidth: "none", msOverflowStyle: "none"}}>
+        <style>{`
+          #type-carousel-container::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+        {
+          elements.length > 0 && elements.slice(0, 20).map( (element, index) => {
+            return (
+              <a
+                key={index}
+                style={{
+                  backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent), url(/api/file/${JSON.parse(element[1][0].images.replace("{", "[").replace("}", "]"))[0]})`,
+                  width: "265px",
+                  height: "229px",
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  flexShrink: 0,
+                  borderRadius: "10px",
+                }}
+                href={`/Offplan-Projects/type/${element[0].replaceAll(" ", "-")}`}
+                >
+                <h3 style={{ color: "#fff", margin: "0px", fontWeight: "600" }}>
+                  {element[0]}
+                </h3>
+                <h4 style={{ color: "#fff", paddingBottom: "5px", fontWeight: "600", margin: "0px" }}>{element[1].length} properties</h4>
+              </a>
 
-export default Carousel;
+            )
+          })
+        }
+      </div>
+      <div style={{ cursor: "pointer", background: "#001F3F", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollRight}>
+        <i className="fa-solid fa-arrow-right" style={{color: "#fff"}}></i>
+      </div>
+      <div></div>
+    </div>
+  )
+}

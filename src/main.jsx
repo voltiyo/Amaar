@@ -48,6 +48,7 @@ root.render(
       <Route path="/Offplan-Projects" element={<Offplan />}></Route>
       <Route path="/Offplan-Projects/:country" element={<Offplan />} />
       <Route path="/Offplan-Projects/:country/:q" element={<Offplan />} />
+      <Route path="/Offplan-Projects/type/:type" element={<Offplan />}  />
       <Route path="/Projects/:propertyTitle" element={<PropertyPage />}></Route>
       {/*<Route path="/secondary-market-properties" element={<SecondaryMarketProperties />}></Route>*/}
       <Route path="/News-and-Articles" element={<NewsAndArticles />}></Route>

@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 export default function Offplan() {
     const [properties, setProperties] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const { country, q } = useParams();
+    const { country, q, type } = useParams();
     const [screenWidth, setScreenWidth] = useState(window.innerWidth)
     const itemsPerPage = 10;
     const [totalPages, setTotalPages] = useState(Math.ceil(properties.length / itemsPerPage))
@@ -40,11 +40,19 @@ export default function Offplan() {
             const data = await response.json();
             setProperties( data );
         }
+        async function GetPropertiesByType() {
+            const response = await fetch("/api/properties");
+            const data = await response.json();
+            const typeProps = data.filter(prop => prop.type === type.replaceAll("-", " "))
+            setProperties( typeProps );
+        }
 
 
         if (country) {
             GetPropertiesByCity()
-        } else {
+        }  else if (type) {
+            GetPropertiesByType()
+        }else {
             GetProperties()
         }
     },[])
