@@ -17,7 +17,8 @@ export default function Home() {
     const [developer, setDevelopers] = useState([])
     const [postCommunities, setPostCommunities] = useState([]);
     const [windowSize, setWindowSize] = useState(window.innerWidth);
-
+    const [properties, setProperties] = useState([])
+    const [locations, setLocations] = useState([])
 
 
     const scrollToTop = () => {
@@ -47,19 +48,31 @@ export default function Home() {
         async function GetStates() {
             const response = await fetch("/api/states");
             const data = await response.json();
-            setStates(data.slice(0, 3));
+            setStates(data);
         }
         async function GetComs() {
             const response = await fetch("/api/communities");
             const data = await response.json();
             setCommunities(data.slice(0, 12));    
-            setPostCommunities(data.slice(12, 18))
+            setPostCommunities(data.slice(12, 32))
         }
         async function GetDevelopers() {
             const response = await fetch("/api/developers");
             const data = await response.json();
             setDevelopers(data);    
         }
+        async function GetProperties() {
+            const response = await fetch("/api/properties");
+            const data = await response.json();
+            setProperties(data);   
+        }
+        async function GetLocations() {
+            const response = await fetch("/api/locations");
+            const data = await response.json();
+            setLocations(data);   
+        }
+        GetLocations();
+        GetProperties();
         GetDevelopers();
         GetComs();
         GetStates();
@@ -98,7 +111,7 @@ export default function Home() {
                                 <div style={{ display: "flex", justifyContent: "start", alignItems: "center", gap: "1rem" }}>
                                     <select id="home-dropdown">
                                         {
-                                            states.map((state, index) => (
+                                            states.slice(0, 3).map((state, index) => (
                                                 <option key={index} value={state.name}>{state.name}</option>
                                                 
                                             ))
@@ -163,7 +176,7 @@ export default function Home() {
                         <h4 style={{color: "rgb(0 0 0 / .5)", fontWeight: "500", marginTop: "0px"}}>Take a look at new off-plan developments in and around Dubai</h4>
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                        <PropertiesCarousel />
+                        <PropertiesCarousel properties={properties} developers={developer} locations={locations} />
                     </div>
                 </div>
             </div>
@@ -174,7 +187,7 @@ export default function Home() {
                         <h4 style={{color: "rgb(0 0 0 / .5)", fontWeight: "500", marginTop: "0px"}}>Handpicked projects for you</h4>
                     </div>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                        <Carousel />
+                        <Carousel elements={Object.entries(Object.groupBy(properties, prop => prop.type))} />
                     </div>
                 </div>
             </div>

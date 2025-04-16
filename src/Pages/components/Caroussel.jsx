@@ -33,20 +33,7 @@ function ScrollLeft() {
 }
 
 
-export default function Carousel() {
-  const [elements, setElements] = useState([])
-
-  useEffect(() => {
-    async function GetProperties() {
-      const response = await fetch("/api/properties");
-      const data = await response.json();
-      const sorted = Object.groupBy(data, prop => prop.type)
-      setElements(Object.entries(sorted));
-    }
-    GetProperties();
-  }, [])
-  
-  
+export default function Carousel({ elements }) {
   return (
     <div style={{ width: "80%",height: "250px", display: "flex", justifyContent: "center", alignItems: "center"}} >
       <div style={{cursor: "pointer", background: "#001F3F", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollLeft}>

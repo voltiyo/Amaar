@@ -45,21 +45,21 @@ export default function NavBar({ page }) {
     }, [])
     
     return (
-        <div style={{ display: "flex", justifyContent: "space-between", height: '10vh', position: "relative" }}>
+        <div style={{ display: "flex", justifyContent: "start", height: '10vh', position: "relative" }}>
             <a href="/">
                 <div style={{ width: "20%", margin: "0px 30px", position: "relative" }}>
                     <img src="/Navy blue logo.svg" alt="Amaar Properties" style={{width: "180px", position: "absolute", top: "-60px", left: "-50px"}} />
                 </div>
             </a>
-            {windowSize >= 800 ? <div id="nav-a-container" style={{ display: "flex", gap: "1rem", justifyContent: "space-around", marginRight: "20%"}}>
-                <a href="/" className={page === "home" ? "selected" : ""} style={{textWrap: "nowrap"}}>home</a>
+            {windowSize >= 800 ? <div id="nav-a-container" style={{ display: "flex", gap: "2rem", justifyContent: "space-around", marginLeft: "15%"}}>
+                <a href="/" className={page === "home" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>home</a>
                 {/* {<a href="/secondary-market-properties" className={page === "secondary" ? "selected" : ""}>secondary properties</a>} */}
-                <div style={{ textTransform: "uppercase", position: "relative" }}>
+                <div style={{ textTransform: "uppercase", position: "relative", transform: "translateY(-50%)"}}>
                     <a 
                         href="/Offplan-Projects"
                         onMouseOver={showMenu}
                         onMouseLeave={hideMenu}
-                        style={{padding: "8px 10px", height: "100%", textWrap: "nowrap" }}
+                        style={{padding: "8px 10px", height: "100%", textWrap: "nowrap", display: "flex", gap: "10px", alignItems: "center", justifyContent: "center", fontFamily: "Arial, Helvetica, sans-serif" }}
                         className={page === "offplan" ? "selected" : ""}
                     >
                         off plan <i className="fa-solid fa-caret-down"></i>
@@ -67,15 +67,15 @@ export default function NavBar({ page }) {
                     <div className="dropdown-content" onMouseOver={showMenu} onMouseLeave={hideMenu}>
                         {
                             states.map((state, index) => (
-                                <a href={"/Offplan-projects/" + state.name.replaceAll(" ", "-")} style={{textWrap: "nowrap"}} key={index}>{state.name}</a>
+                                <a href={"/Offplan-projects/" + state.name.replaceAll(" ", "-")} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}} key={index}>{state.name}</a>
                             ))
                         }
                         <a href="/Offplan-projects/" style={{textWrap: "nowrap"}}>All Projects</a>
                     </div>
                 </div>
-                <a href="/Services" className={page === "services" ? "selected" : ""} style={{textWrap: "nowrap"}}>services</a>
-                <a href="/News-and-Articles" className={page === "newsandarticles" ? "selected" : ""} style={{textWrap: "nowrap"}}>news & articles</a>
-                <a href="/List-your-Property" className={page === "listyours" ? "selected" : ""} style={{textWrap: "nowrap"}}>list your property</a>
+                <a href="/Services" className={page === "services" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>services</a>
+                <a href="/News-and-Articles" className={page === "newsandarticles" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>news & articles</a>
+                <a href="/List-your-Property" className={page === "listyours" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>list your property</a>
             </div>
             :
             <div style={{position: "absolute", top: "20px", right: "30px", fontSize: "1.3rem", zIndex: "21"}} onClick={ToggleMobileMenu}>
