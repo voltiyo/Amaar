@@ -149,7 +149,7 @@ app.get("/api/news", async ( req, res ) => {
   const articles = [];
   for (const article of data.rows) {
     const location = await client.query("SELECT * FROM locations WHERE id = $1 ", [ article.location ])
-    article.location = location.rows[0].name
+    article.location = location.rows[0]?.name
 
     articles.push(article)
   }

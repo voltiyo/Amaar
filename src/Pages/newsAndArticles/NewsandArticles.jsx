@@ -80,7 +80,7 @@ export default function NewsAndArticles() {
                                                 <span style={{display: "flex", alignItems: "center", gap: "5px", margin: "0px"}}>
                                                     <i className="ri-map-pin-line" style={{color: "#727272"}}></i>
                                                     <small>
-                                                        <p style={{margin: "0px", color: "#727272"}}>{locations.length > 0 && locations.filter(location => parseInt(property.location) === location.id)[0].name}</p>
+                                                        <p style={{margin: "0px", color: "#727272"}}>{locations.length > 0 && locations.filter(location => parseInt(property.location) === location.id)[0]?.name}</p>
                                                     </small>
                                                 </span>
                                                 <h4 style={{color: "#001F3F", margin: "0px"}}>AED {property.price}</h4>

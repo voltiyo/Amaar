@@ -4,7 +4,7 @@ import Footer from "../components/Footer"
 export default function AboutUs() {
     return (
         <div>
-            <NavBar />
+            <NavBar page={"about"} />
             <div>
                 <div className='services-title-container'>
                     <h1>About Us</h1>
@@ -14,15 +14,16 @@ export default function AboutUs() {
                         <li>About</li>
                     </ul>
                 </div>
-                <div className='services-container'>
-                    <h1>About Amaar Properties</h1>
-                    <p>
-                        To know about us and what we do - especially if you are looking to buy, sell and rent property in Dubai, just feel free to visit Amaar Properties. We have a complete list of all the properties that might fit your specific criteria. Amaar Properties are proudly a subsidiary of The Emirates Business Group, a holding company based in Abu Dhabi with a diverse range of companies in its portfolio. <br /><br />
-
-                        Being a small-to-medium-sized real estate company with the backing of a large holding company we can be more adaptive to the market conditions and client’s needs, whilst at the same time benefiting from the influence of a corporation. <br /><br />
-
-                        Amaar Properties offer a full range of real estate services including sales of under-development (off-plan) communities, completed properties (residential sales), investment consultancy, real estate advisory, mortgage advisory and property management facilities.
-                    </p>
+                <div className='services-container' style={{width: "100%"}}>
+                    <div style={{display: "flex", alignItems: "center", justifyContent: "space-around", width: "100%"}}>
+                        <div style={{width: "50%", textWrap: "wrap"}}>
+                            <p>At the helm of real estate innovation, my strategic acumen and sales mastery shine. Overseeing business strategy and operational excellence, I harness a unique blend of market knowledge and negotiation prowess to steer our organization towards sustained growth and industry leadership. Our team's collaborative efforts have cultivated robust client relationships and propelled us to the forefront of real estate trends.</p>
+                            <p>With a focus on comprehensive market analysis and process optimization, I am dedicated to ensuring our operations adhere to the highest regulatory standards while fostering an environment ripe for skill development. My commitment to transparency and efficiency underpins our success, as we empower our clients with informed decision-making and seamless transaction experiences. Finally add all the contact info and a form to submit by clients or candidates who wish to join my operation </p>
+                        </div>
+                        <div style={{width: "20%"}}>
+                            <img src="/me.png" style={{width: "100%", objectFit: "cover"}} />
+                        </div>
+                    </div>
                 </div>
             </div>
             <Footer />

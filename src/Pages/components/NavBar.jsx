@@ -45,10 +45,10 @@ export default function NavBar({ page }) {
     }, [])
     
     return (
-        <div style={{ display: "flex", justifyContent: "start", height: '10vh', position: "relative" }}>
+        <div style={{ display: "flex", justifyContent: "start", height: '10vh', position: "fixed", top: "0px", width: "100%", background: "#fff", zIndex: "80" }}>
             <a href="/">
                 <div style={{ width: "20%", margin: "0px 30px", position: "relative" }}>
-                    <img src="/Navy blue logo.svg" alt="Amaar Properties" style={{width: "180px", position: "absolute", top: "-60px", left: "-50px"}} />
+                    <img src="/Navy blue logo.png" alt="Amaar Properties" style={{width: "180px", position: "absolute", top: "-60px", left: "-50px"}} />
                 </div>
             </a>
             {windowSize >= 800 ? <div id="nav-a-container" style={{ display: "flex", gap: "2rem", justifyContent: "space-around", marginLeft: "15%"}}>
@@ -76,6 +76,7 @@ export default function NavBar({ page }) {
                 <a href="/Services" className={page === "services" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>services</a>
                 <a href="/News-and-Articles" className={page === "newsandarticles" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>news & articles</a>
                 <a href="/List-your-Property" className={page === "listyours" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>list your property</a>
+                <a href="/About" className={page === "about" ? "selected" : ""} style={{textWrap: "nowrap", fontFamily: "Arial, Helvetica, sans-serif"}}>About</a>
             </div>
             :
             <div style={{position: "absolute", top: "20px", right: "30px", fontSize: "1.3rem", zIndex: "21"}} onClick={ToggleMobileMenu}>

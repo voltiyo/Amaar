@@ -10,11 +10,9 @@ function ScrollRight() {
   const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
   if (container.scrollLeft >= maxScrollLeft) {
-    // Reset to the start when reaching the end
     container.scrollTo({ left: 0, behavior: "smooth" });
   } else {
-    // Move right by 290px
-    container.scrollBy({ left: 280, behavior: "smooth" });
+    container.scrollBy({ left: container.querySelector("a").offsetWidth + 10, behavior: "smooth" });
   }
 }
 
@@ -24,52 +22,47 @@ function ScrollLeft() {
   if (!container) return;
 
   if (container.scrollLeft <= 0) {
-    // Go to the max scroll when reaching the start
     container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
   } else {
-    // Move left by 290px
-    container.scrollBy({ left: -280, behavior: "smooth" });
+    container.scrollBy({ left: -(container.querySelector("a").offsetWidth + 10), behavior: "smooth" });
   }
 }
 
 
 export default function Carousel({ elements }) {
   return (
-    <div style={{ width: "80%",height: "250px", display: "flex", justifyContent: "center", alignItems: "center"}} >
+    <div style={{ width: "100%",height: "250px", display: "flex", justifyContent: "center", alignItems: "center"}} >
       <div style={{cursor: "pointer", background: "#001F3F", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollLeft}>
         <i className="fa-solid fa-arrow-left" style={{color: "#fff"}}></i>
       </div>
       
-      <div id="type-carousel-container" style={{display: "flex",margin: "0px 15px", alignItems: "center", position: "relative", justifyContent: "center", overflow: "scroll", gap: "10px", width: "40%", paddingLeft: "950px", paddingRight: "50px", scrollbarWidth: "none", msOverflowStyle: "none"}}>
-        <style>{`
-          #type-carousel-container::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+      <div id="type-carousel-container" style={{display: "flex",margin: "0px 15px", alignItems: "center", position: "relative", justifyContent: "start", overflow: "scroll", gap: "10px", scrollbarWidth: "none", msOverflowStyle: "none"}}>
+       
         {
           elements.length > 0 && elements.slice(0, 20).map( (element, index) => {
             return (
               <a
                 key={index}
                 style={{
-                  backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent), url(/api/file/${JSON.parse(element[1][0].images.replace("{", "[").replace("}", "]"))[0]})`,
-                  width: "265px",
+                  width: "300px",
                   height: "229px",
                   display: "flex",
-                  justifyContent: "end",
+                  justifyContent: "start",
                   alignItems: "center",
                   flexDirection: "column",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
                   flexShrink: 0,
                   borderRadius: "10px",
+                  border: "1px solid #eee"
                 }}
                 href={`/Offplan-Projects/type/${element[0].replaceAll(" ", "-")}`}
                 >
-                <h3 style={{ color: "#fff", margin: "0px", fontWeight: "600" }}>
+                <div style={{width: "100%", height: "70%", display: "flex", justifyContent: "center", alignItems: "center", borderRadius: "10px 10px 0px 0px", overflow: "hidden"}}>
+                  <img src={`/api/file/${JSON.parse(element[1][0].images.replace("{", "[").replace("}", "]"))[0]}`} style={{width: "100%", height: "100%"}}/>
+                </div>
+                <h3 style={{ color: "#000", margin: "0px", fontWeight: "600" }}>
                   {element[0]}
                 </h3>
-                <h4 style={{ color: "#fff", paddingBottom: "5px", fontWeight: "600", margin: "0px" }}>{element[1].length} properties</h4>
+                <h4 style={{ color: "#333", paddingBottom: "5px", fontWeight: "600", margin: "0px" }}>{element[1].length} properties</h4>
               </a>
 
             )
