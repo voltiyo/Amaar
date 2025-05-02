@@ -11,7 +11,7 @@
     top: 0;
 }
 .footer {
-    background-color: rgba(33, 37, 41);
+    background-color:  #004274;
     position: relative;
     z-index: 3;
     display: flex;
@@ -19,12 +19,15 @@
     justify-content: center;
     gap: 8rem;
     height: fit-content;
-    padding-top: 50px;
+    padding: 50px 4rem 0 4rem;
 }
 @media only screen and (max-width: 800px) {
     .footer {
         flex-direction: column;
     }
+}
+.footer i {
+    color: orange;
 }
 .footer-element-1{
     width: 351px;

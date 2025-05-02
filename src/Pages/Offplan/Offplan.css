@@ -30,13 +30,13 @@
     transition: all 500ms;
 }
 .section-redirect:hover{
-    background: #001F3F !important;
+    background: #004274 !important;
     color: #fff !important;
     transform: translateY(-5px);
 }
 
 .section-redirect.active{
     transform: translateY(-5px);
-    background: #001F3F !important;
+    background: #004274 !important;
     color: #fff !important;
 }

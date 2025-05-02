@@ -3,6 +3,7 @@ import Footer from "../components/Footer"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import Property from "../components/Property"
+import "../Offplan/Offplan.css"
 
 export default function CommunityPage() {
     const { Community } = useParams()

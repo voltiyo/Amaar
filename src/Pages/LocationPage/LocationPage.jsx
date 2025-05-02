@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import Navbar from "../components/NavBar"
 import Footer from "../components/Footer"
+import "../Offplan/Offplan.css"
 import { useEffect, useState } from "react";
 import Property from "../components/Property";
 

@@ -2,6 +2,7 @@ import Navbar from "../components/NavBar"
 import Footer from "../components/Footer"
 import { useParams, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react";
+import "../Offplan/Offplan.css"
 
 export default function ArticlePage() {
     const { Article } = useParams();

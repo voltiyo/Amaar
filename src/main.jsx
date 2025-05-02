@@ -1,37 +1,36 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
-import Home from "./Pages/Home/Home";
-import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Services from "./Pages/Services/Services";
-import Team from "./Pages/Team/Team";
-import Offplan from "./Pages/Offplan/Offplan";
-import SecondaryMarketProperties from "./Pages/secondaryProps/secondaryMarketProperties";
-import NewsAndArticles from "./Pages/newsAndArticles/NewsandArticles";
-import PropertyManagement from "./Pages/PropertyManagement/PropertyManagement";
-import AdminDashboardLayout from "./Pages/adminPages/Dashboard/DashboardLayout";
-import AdminLogin from "./Pages/adminPages/Login/Login";
-import Developers from "./Pages/Developers/Developers";
-import Communities from "./Pages/Communities/Communities";
-import Locations from "./Pages/Locations/Locations";
-
-
+import "./index.css";
 import 'remixicon/fonts/remixicon.css';
-import EditCom from "./Pages/adminPages/Edit/Community/EditCommunity";
-import Developer from "./Pages/DeveloperPage/DeveloperPage";
-import CommunityPage from "./Pages/CommunityPage/CommunityPage";
-import LocationPage from "./Pages/LocationPage/LocationPage";
-import PropertyPage from "./Pages/PropertyPage/PropertyPage";
-import EditProperty from "./Pages/adminPages/Edit/Property/EditProperty";
-import EditAgent from "./Pages/adminPages/Edit/Agent/EditAgent";
-import EditState from "./Pages/adminPages/Edit/State/EditState";
-import EditDev from "./Pages/adminPages/Edit/Developer/EditDeveloper";
-import EditLoca from "./Pages/adminPages/Edit/Locations/EditLocations";
-import EditArticle from "./Pages/adminPages/Edit/NewsAndArticles/EditArticle";
-import ArticlePage from "./Pages/ArticlePage/ArticlePage";
-import AboutUs from "./Pages/About/AboutUs";
-import Privacy from "./Pages/Privacy/Privacy";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
+
+const Home = lazy(() => import("./Pages/Home/Home"));
+const Services = lazy(() => import("./Pages/Services/Services"));
+const Team = lazy(() => import("./Pages/Team/Team"));
+const Offplan = lazy(() => import("./Pages/Offplan/Offplan"));
+const SecondaryMarketProperties = lazy(() => import("./Pages/secondaryProps/secondaryMarketProperties"));
+const NewsAndArticles = lazy(() => import("./Pages/newsAndArticles/NewsandArticles"));
+const PropertyManagement = lazy(() => import("./Pages/PropertyManagement/PropertyManagement"));
+const AdminDashboardLayout = lazy(() => import("./Pages/adminPages/Dashboard/DashboardLayout"));
+const AdminLogin = lazy(() => import("./Pages/adminPages/Login/Login"));
+const Developers = lazy(() => import("./Pages/Developers/Developers"));
+const Communities = lazy(() => import("./Pages/Communities/Communities"));
+const Locations = lazy(() => import("./Pages/Locations/Locations"));
+const EditCom = lazy(() => import("./Pages/adminPages/Edit/Community/EditCommunity"));
+const Developer = lazy(() => import("./Pages/DeveloperPage/DeveloperPage"));
+const CommunityPage = lazy(() => import("./Pages/CommunityPage/CommunityPage"));
+const LocationPage = lazy(() => import("./Pages/LocationPage/LocationPage"));
+const PropertyPage = lazy(() => import("./Pages/PropertyPage/PropertyPage"));
+const EditProperty = lazy(() => import("./Pages/adminPages/Edit/Property/EditProperty"));
+const EditAgent = lazy(() => import("./Pages/adminPages/Edit/Agent/EditAgent"));
+const EditState = lazy(() => import("./Pages/adminPages/Edit/State/EditState"));
+const EditDev = lazy(() => import("./Pages/adminPages/Edit/Developer/EditDeveloper"));
+const EditLoca = lazy(() => import("./Pages/adminPages/Edit/Locations/EditLocations"));
+const EditArticle = lazy(() => import("./Pages/adminPages/Edit/NewsAndArticles/EditArticle"));
+const ArticlePage = lazy(() => import("./Pages/ArticlePage/ArticlePage"));
+const AboutUs = lazy(() => import("./Pages/About/AboutUs"));
+const Privacy = lazy(() => import("./Pages/Privacy/Privacy"));
 
 
 

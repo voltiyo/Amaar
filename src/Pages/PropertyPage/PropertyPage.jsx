@@ -3,15 +3,18 @@ import Footer from "../components/Footer"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import PropertyPageNavBar from "../components/PropertyPageNavBar";
-import Overview from "./Overview/Overview";
-import Amenities from "./Amenities/Amenities";
-import Payment from "./Payment/Payment";
-import Floor from "./Floor/Floor";
-import Location from "./Location/Location";
-import Master from "./Master/Master"
+import { lazy, Suspense } from 'react';
+const Overview = lazy(() => import('./Overview/Overview'));
+const Amenities = lazy(() => import('./Amenities/Amenities'));
+const Payment = lazy(() => import('./Payment/Payment'));
+const Floor = lazy(() => import('./Floor/Floor'));
+const Location = lazy(() => import('./Location/Location'));
+const Master = lazy(() => import('./Master/Master'));
 import GetInTouch from "./GetInTouch/GetInTouch";
 import Property from "../components/Property";
 import PropertiesPageMainNavigationBar from "../components/PropertiesPageMainNavigationBar";
+import "../Offplan/Offplan.css"
+
 function ShowMenu() {
     if (document.querySelector("#propMobileMenu").style.transform === "translateY(-250px)") {
         document.querySelector("#propMobileMenu").style.transform = "translateX(0px)"
@@ -92,7 +95,7 @@ export default function PropertyPage() {
 
 
     return (
-        <div style={{overflowX: "hidden", width: "100%"}}>
+        <div style={{overflowX: "hidden", width: "100%", marginTop: "-10vh"}}>
             <div style={{scrollBehavior: "smooth", overflow: "hidden", width: "100%"}}>
                 {
                     windowSize >= 800 && <PropertiesPageMainNavigationBar />
@@ -130,12 +133,14 @@ export default function PropertyPage() {
                 }
                 <div style={{display: "flex",flexDirection: windowSize >= 800 ? "row": "column", alignItems: windowSize >= 800 ? "stretch" : "center", justifyContent: "space-around", scrollBehavior: "smooth", width: "100%"}}>
                     <div style={{width: windowSize >= 800 ? "75%" : "100%", scrollBehavior: "smooth"}}>
-                        { page === "overview" && <Overview property={property} developer={developer}/> }
-                        { page === "amenities" && <Amenities property={property} /> }
-                        { page === "payment" && <Payment property={property} /> }
-                        { page === "floor" && <Floor property={property} /> }
-                        { page === "location" && <Location property={property} /> }
-                        { page === "master" && <Master property={property} /> }
+                        <Suspense fallback={<div>Loading...</div>}>
+                            {page === "overview" && <Overview property={property} developer={developer} />}
+                            {page === "amenities" && <Amenities property={property} />}
+                            {page === "payment" && <Payment property={property} />}
+                            {page === "floor" && <Floor property={property} />}
+                            {page === "location" && <Location property={property} />}
+                            {page === "master" && <Master property={property} />}
+                        </Suspense>
                     </div>
                     <div style={{width: windowSize >= 800 ? "23%" : "90%", position: "relative"}}>
                         <div style={{position: "sticky", top: "120px", marginBottom: "50px", transform: windowSize <= 800 ? "scale(.7)": "translateY(-100px)", zIndex: 10}}>
@@ -143,10 +148,10 @@ export default function PropertyPage() {
                         </div>
                     </div>
                 </div>
-                <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "50px", transform: windowSize <= 800 && "scale(.7)"}}>
+                {recommandedProperties.length > 0 && (<div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "50px", transform: windowSize <= 800 && "scale(.7)"}}>
                     <fieldset style={{width: "95%", border: "1px solid #ccc", borderRadius: "10px"}}>
                         <legend style={{textAlign: "center", padding: "0px 20px"}}>
-                            <h2 style={{fontWeight: "500"}}>More Projects of <span style={{color: "#bb9f00", fontWeight: "600"}}>{developer.name}</span></h2>
+                            <h2 style={{fontWeight: "500"}}>More Projects of <span style={{color: "orange", fontWeight: "600"}}>{developer.name}</span></h2>
 
                         </legend>
                         <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "3rem"}}>
@@ -159,7 +164,7 @@ export default function PropertyPage() {
                             }
                         </div>
                     </fieldset>
-                </div>
+                </div>)}
             </div>
             <Footer />
         </div>

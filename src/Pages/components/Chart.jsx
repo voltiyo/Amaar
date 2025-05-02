@@ -7,10 +7,10 @@ const MyChart = ({data}) => {
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" stroke='#001F3F' fontWeight={"600"}/>
-        <YAxis stroke='#001F3F' fontWeight={"600"}/>
-        <Tooltip stroke='#001F3F' fontWeight={"600"}/>
-        <Line type="monotone" dataKey="value" stroke="#001F3F" strokeWidth={"2px"}/>
+        <XAxis dataKey="name" stroke='#004274' fontWeight={"600"}/>
+        <YAxis stroke='#004274' fontWeight={"600"}/>
+        <Tooltip stroke='#004274' fontWeight={"600"}/>
+        <Line type="monotone" dataKey="value" stroke="#004274" strokeWidth={"2px"}/>
       </LineChart>
     </ResponsiveContainer>
   );

@@ -45,10 +45,10 @@ export default function NavBar({ page }) {
     }, [])
     
     return (
-        <div style={{ display: "flex", justifyContent: "start", height: '10vh', position: "fixed", top: "0px", width: "100%", background: "#fff", zIndex: "80" }}>
-            <a href="/">
-                <div style={{ width: "20%", margin: "0px 30px", position: "relative" }}>
-                    <img src="/Navy blue logo.png" alt="Amaar Properties" style={{width: "180px", position: "absolute", top: "-60px", left: "-50px"}} />
+        <div style={{ display: "flex", justifyContent: "start", height: '10vh', position: "fixed", top: "0px", width: "100%", background: "#fff", zIndex: "80", backgroundColor: " #004274 " }}>
+            <a href="/" style={{width: windowSize >= 800 ? "12%" : "45%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <div style={{ width: "100%", margin: "0px 30px", position: "relative" }}>
+                    <img src="/2.png" alt="Amaar Properties" style={{width: "100%"}} />
                 </div>
             </a>
             {windowSize >= 800 ? <div id="nav-a-container" style={{ display: "flex", gap: "2rem", justifyContent: "space-around", marginLeft: "15%"}}>
@@ -80,19 +80,19 @@ export default function NavBar({ page }) {
             </div>
             :
             <div style={{position: "absolute", top: "20px", right: "30px", fontSize: "1.3rem", zIndex: "21"}} onClick={ToggleMobileMenu}>
-                <i className="fa fa-bars"></i>
+                <i className="fa fa-bars" style={{color: "#fff"}}></i>
             </div>
             }
             {
                 windowSize <= 800 && (
-                    <div id="mobileNav" style={{display: "flex", flexDirection: "column", gap: "1rem",position: "absolute", top: "50px", zIndex: "20", right: "0px", transform: "translateX(100px)", padding: "10px 30px 10px ", overflow: "hidden", background: "#eee", fontWeight: "600", borderRadius: "10px 0 0 10px", width: "0px", transition: "all .5s"}}>
-                        <a href="/" className={page === "home" ? "selected" : ""} style={{color: "#000", textWrap: "nowrap"}}>home</a>
-                        <a href="/Offplan-Projects" className={page === "offplan" ? "selected" : ""} style={{color: "#000", textWrap: "nowrap"}}>
-                            off plan
+                    <div id="mobileNav" style={{display: "flex", backgroundColor: "#004274", flexDirection: "column", gap: "1rem",position: "absolute", top: "50px", zIndex: "20", right: "0px", transform: "translateX(100px)", padding: "10px 30px 10px ", overflow: "hidden", fontWeight: "600", borderRadius: "10px 0 0 10px", width: "0px", transition: "all .5s"}}>
+                        <a href="/" className={page === "home" ? "selected" : ""} style={{color: "#fff", textWrap: "nowrap"}}>Home</a>
+                        <a href="/Offplan-Projects" className={page === "offplan" ? "selected" : ""} style={{color: "#fff", textWrap: "nowrap"}}>
+                            Off Plan
                         </a>
-                        <a href="/Services" className={page === "services" ? "selected" : ""} style={{color: "#000", textWrap: "nowrap"}}>services</a>
-                        <a href="/News-and-Articles" className={page === "newsandarticles" ? "selected" : ""} style={{color: "#000", textWrap: "nowrap"}}>news & articles</a>
-                        <a href="/List-your-Property" className={page === "listyours" ? "selected" : ""} style={{color: "#000", textWrap: "nowrap"}}>list your property</a>
+                        <a href="/Services" className={page === "services" ? "selected" : ""} style={{color: "#fff", textWrap: "nowrap"}}>Services</a>
+                        <a href="/News-and-Articles" className={page === "newsandarticles" ? "selected" : ""} style={{color: "#fff", textWrap: "nowrap"}}>News & Articles</a>
+                        <a href="/List-your-Property" className={page === "listyours" ? "selected" : ""} style={{color: "#fff", textWrap: "nowrap"}}>List Your Property</a>
                     </div>
                 )
             }

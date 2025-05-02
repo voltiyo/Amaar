@@ -1,14 +1,29 @@
-import { Worker, Viewer } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
+import React, { useState } from 'react';
+import PDF from 'react-pdf-js';
 
 const PdfViewer = ({ fileUrl }) => {
-    return (
-        <div style={{ height: '500px', border: '1px solid #ccc', borderRadius: "5px" }}>
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
-                <Viewer fileUrl={fileUrl} />
-            </Worker>
-        </div>
-    );
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(null);
+
+  const onDocumentComplete = (pages) => {
+    setPages(pages);
+    setPage(1);
+  };
+
+  const onPageComplete = (page) => {
+    setPage(page);
+  };
+
+  return (
+    <div>
+      <PDF
+        file={fileUrl}
+        page={page}
+        onDocumentComplete={onDocumentComplete}
+        onPageComplete={onPageComplete}
+      />
+    </div>
+  );
 };
 
 export default PdfViewer;

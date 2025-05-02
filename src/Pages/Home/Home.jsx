@@ -1,19 +1,16 @@
 import NavBar from "../components/NavBar"
+import React, { lazy } from "react";
 import { useRef, useState, useEffect } from "react"
 import "./Home.css"
-import PropertiesCarousel from "../components/propertiesCarousel.jsx"
-import Footer from "../components/Footer.jsx"
-import Carousel from "../components/Caroussel.jsx"
-
-
-
+const PropertiesCarousel = lazy(() => import("../components/propertiesCarousel.jsx"));
+const Footer = lazy(() => import("../components/Footer.jsx"))
+const Carousel = lazy(() => import("../components/Caroussel.jsx"))
 
 export default function Home() {
     const [choice1, setchoice1] = useState(1)
     const homeContainerRef = useRef(null)
     const [showBackToTop, setShowBackToTop] = useState(false);
     const [states, setStates] = useState([])
-    const [communities, setCommunities] = useState([])
     const [developer, setDevelopers] = useState([])
     const [dubDevs, setDubDevs] = useState([])
     const [AbuDevs, setAbuDevs] = useState([])
@@ -62,8 +59,7 @@ export default function Home() {
             setDubComs(data.filter(com => com.projects[0]?.state === "3"));
             setAbuComs(data.filter(com => com.projects[0]?.state === "2"));
             setRAKComs(data.filter(com => com.projects[0]?.state === "4"));
-            setCommunities(data);    
-            setPostCommunities(data)
+            setPostCommunities(data.sort((a,b) => a.name.localeCompare(b.name)))
         }
         async function GetDevelopers() {
             const response = await fetch("/api/developers");
@@ -100,25 +96,25 @@ export default function Home() {
     return (
         <div id="home-container" ref={homeContainerRef}>
             <NavBar page={"home"} />
-            <div style={{ display: "flex",marginBottom: windowSize >= 800 ? "" : "350px", justifyContent: windowSize >= 800 ? "space-around" : "center", flexDirection: windowSize >= 800 ? "row": "column", alignItems: "start", height: windowSize >= 800 ? "90vh" : "40vh", marginTop: "10vh"}}>
+            <div style={{ display: "flex", justifyContent: windowSize >= 800 ? "space-around" : "center", flexDirection: windowSize >= 800 ? "row": "column", alignItems: "start", height: windowSize >= 800 ? "90vh" :  "fit-content", padding: windowSize >= 800 ? "100px 0" : "50px 0", background: "url(/banner.jpg)", backgroundPosition: "center", backgroundRepeat: "no-repeat"}}>
                 
-                <div style={{padding: " 0px 50px", textWrap: "nowrap", width: "100%"}}>
+                <div style={{padding: " 0px 50px", textWrap: "nowrap", width: "98%"}}>
                     <div style={{maxWidth: "450px"}}>
-                        <h6 style={{marginTop: "4rem",fontSize: "2.5rem",marginBottom:"10px", textWrap: "wrap", fontStyle: "italic",color: "#2b3b3a", fontWeight: "500"}}>Welcome to Dimension Real Estate Brokers by Ammar Asaad</h6>
-                        <p style={{fontSize: "1.1rem",marginTop:"0", fontWeight: "600", textWrap: "wrap"}}>
+
+                        <p style={{fontSize: "1.1rem",marginTop:"0", fontWeight: "600", textWrap: "wrap", color: "#fff"}}>
                         Whether you're searching for your dream home, a thriving workspace, or a smart investment opportunity, you're in the right place. With nearly two decades of market insight, I'm here to turn your real estate goals into reality.
                         </p>
                     </div>
-                    <div style={{position: "relative", width: "150%"}}>
-                        <div style={{ width: "100%", position: "absolute"}}>
+                    <div style={{position: "relative", width: windowSize >= 800 ? "50%" : "70%"}}>
+                        <div style={{ width: "100%"}}>
                             <div style={{background: "#dfdfdf", padding: "1rem", borderRadius: "10px", marginTop: "1rem", width: "100%"}}>
-                                <h4><span style={{color: "#001F3F"}}>WHAT ARE YOU LOOKING FOR?</span> (Easily find the house of your choice)</h4>
+                                <h4 style={{textWrap: "wrap"}}><span style={{color: "#004274"}}>WHAT ARE YOU LOOKING FOR?</span> (Easily find the house of your choice)</h4>
                                 <div style={{ display: "flex", justifyContent: "start", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-                                    <div style={{ background: choice1 === 1 ? "#001F3F": "#fff", color: choice1 === 1 ? "#fff" : "#000", fontWeight: "700", padding: "10px", borderRadius: "5px", cursor: "pointer", transition: "all 500ms", }} onClick={() => setchoice1(1)} onMouseOver={(e) => { e.target.style.background = "#001F3F", e.target.style.color = "#fff"  }} onMouseLeave={(e) => { if (choice1 !== 1) { e.target.style.background = "#fff", e.target.style.color = "#000"  }}}>
+                                    <div style={{ background: choice1 === 1 ? "#004274": "#fff", color: choice1 === 1 ? "#fff" : "#000", fontWeight: "700", padding: "10px", borderRadius: "5px", cursor: "pointer", transition: "all 500ms", }} onClick={() => setchoice1(1)} onMouseOver={(e) => { e.target.style.background = "#004274", e.target.style.color = "#fff"  }} onMouseLeave={(e) => { if (choice1 !== 1) { e.target.style.background = "#fff", e.target.style.color = "#000"  }}}>
                                         Buy
                                     </div>
                                 </div>
-                                <div style={{ display: "flex", justifyContent: "start", alignItems: "center", gap: "1rem" }}>
+                                <div style={{ display: "flex", justifyContent: "start", alignItems: windowSize >= 800 ? "center" : "stretch", gap: "1rem", flexDirection: windowSize <= 800 ? "column" : "row" }}>
                                     <select id="home-dropdown">
                                         {
                                             states.slice(0, 3).map((state, index) => (
@@ -128,7 +124,7 @@ export default function Home() {
                                         }
                                     </select>
                                     <input type="text" id="home-drop-input" placeholder="City Neighboorhood, Community" />
-                                    <button style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", padding: "1.1rem 1rem", fontSize: "1rem", background: "#001F3F", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}
+                                    <button style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", padding: "1.1rem 1rem", fontSize: "1rem", background: "#004274", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}
                                         onClick={() => {
                                             window.location.href = `/Offplan-projects/${document.querySelector("#home-dropdown").value}/${document.querySelector("#home-drop-input").value.replaceAll(" ", "-")}`
                                         }}
@@ -143,11 +139,6 @@ export default function Home() {
 
                     </div>
                 </div>
-                {
-                    windowSize >= 800 &&
-                    <div style={{ height: "100%"}}>
-                    <img src="/banner.jpg" alt="" style={{objectFit: "cover", height: "100%", maxWidth: "641px"}}/>
-                </div>}
             </div>
             <div style={{height: "fit-content", display: "flex", paddingLeft: "30px", alignItems: "start",justifyContent: "start" ,paddingBottom: "50px", background: "#e5e5e5"}}>
                 <div style={{ margin: "0", display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "start", width: "100%"}} >
@@ -155,15 +146,15 @@ export default function Home() {
                         <h1 style={{color: "#2b3b3a", margin: "0px"}}>Off Plan Projects</h1>
                         <p style={{color: "rgb(0 0 0 / .5)", marginTop: "0px"}}>Select Your Desired City</p>
                     </div>
-                    <div style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: windowSize >= 800 ? "3rem" : "0rem", flexWrap: "wrap" }}> 
+                    <div style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: windowSize >= 800 ? "3rem" : "0rem", flexWrap: "wrap", rowGap: "50px" }}> 
                         {
                             states.slice(0,3).map((state, index) => {
                                 return (
-                                <div style={{width: "30%", height: "350px", transform: windowSize >= 800 ? "" : "scale(.7)"}} key={index} className="property-card">
+                                <div style={{width: windowSize >= 800 ? "30%" : "80%", height: "350px"}} key={index} className="property-card">
                                     <a href={`/Offplan-projects/${state.name.replaceAll(" ", "-")}`} style={{textDecoration: "none", position: "relative", height: "100%", width: "100%",borderRadius: "10px"}}>
                                         <div style={{overflow: "hidden", height: "100%", borderRadius: "10px", position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                             <img src={`/api/file/${state.image}`} alt="" style={{minHeight: "100%", objectFit: "cover"}}/>
-                                            <div style={{opacity: "0.9", background: "#001F3F", position: "absolute", bottom: "0", width: "100%", textAlign: "center", color: "#fff"}}>
+                                            <div style={{opacity: "0.9", background: "#004274", position: "absolute", bottom: "0", width: "100%", textAlign: "center", color: "#fff"}}>
                                                 <p style={{fontWeight: "600"}}>{state.propCount} + Properties</p>
                                             </div>
                                         </div>
@@ -201,7 +192,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div id="back-to-top" style={{transition: "all 500ms",position: "fixed", bottom: "15%", right: "2%",padding: "10px 15px", borderRadius: "5px", backgroundColor: "#001F3F", cursor: "pointer", transform: showBackToTop ? "scale(1)": "scale(0)", zIndex: "90"}} onClick={scrollToTop}>
+            <div id="back-to-top" style={{transition: "all 500ms",position: "fixed", bottom: "15%", right: "2%",padding: "10px 15px", borderRadius: "5px", backgroundColor: "#004274", cursor: "pointer", transform: showBackToTop ? "scale(1)": "scale(0)", zIndex: "90"}} onClick={scrollToTop}>
                 <i className="fa-solid fa-caret-up" style={{color: "#fff"}}></i>
 
             </div>
@@ -215,7 +206,7 @@ export default function Home() {
                         
                         <a href="/Services">
                         <button style={{
-                            background: "#001F3F",
+                            background: "#004274",
                             color: "#fff",
                             border: "none",
                             padding: "10px 20px",
@@ -235,11 +226,11 @@ export default function Home() {
 
             <div style={{width: "100%", position: "relative", marginBottom: "100px"}}>
                 <div style={{padding: "2rem"}}>
-                    <div style={{ marginLeft: "4rem"}}> 
+                    <div style={{ marginLeft: windowSize >= 800 && "4rem"}}> 
                         <h2 style={{color: "#2b3b3a", fontWeight: "700", marginBottom: "0px"}}>Top Developers in UAE</h2>
                         <h4 style={{color: "rgb(0 0 0 / .5)", fontWeight: "500", marginTop: "0px"}}>Real Estate in Popular Developers</h4>
                     </div>
-                    <div style={{display: "grid", gap: "1rem", padding: "1rem", gridTemplateColumns: "repeat(4, 1fr)", width: "95%", marginLeft: "3rem", boxShadow: " 0 1px 4px 0 rgb(153 154 155 / 42%)", zIndex: "10", background: "#fff", borderRadius: "8px"}}>
+                    <div style={{display: windowSize >= 800 ? "grid" : "flex", flexDirection: "column", flexWrap: "wrap", gap: "1rem", padding: "1rem", gridTemplateColumns: "repeat(4, 1fr)", width: "95%", marginLeft: windowSize >= 800 && "3rem", boxShadow: " 0 1px 4px 0 rgb(153 154 155 / 42%)", zIndex: "10", background: "#fff", borderRadius: "8px"}}>
                         {
                             dubDevs && dubDevs.sort((a,b) => { return b.projects.length -  a.projects.length }).slice(0, 4).map((property, index) => {
                                 
@@ -315,35 +306,35 @@ export default function Home() {
                         <h2 style={{color: "#2b3b3a", fontWeight: "700", marginBottom: "0px"}}>Top Communities in UAE</h2>
                         <h4 style={{color: "rgb(0 0 0 / .5)", fontWeight: "500", marginTop: "0px"}}>Check out the top Communities</h4>
                     </div>
-                    <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)",maxWidth: "80%",placeSelf: "center",justifyContent: "center",alignItems: "center", gap: "1.5rem", marginBottom: "50px"}}>
+                    <div style={{display: windowSize >= 800 ? "grid" : "flex", flexDirection: "row", flexWrap: "wrap", gridTemplateColumns: "repeat(6, 1fr)",maxWidth: windowSize >= 800 && "80%",placeSelf: "center",justifyContent: "center",alignItems: "center", gap: "1.5rem", marginBottom: "50px", width: "100%"}}>
                         {
-                            dubComs && dubComs.slice(0, 6).map((community, index) => {
+                            dubComs && dubComs.sort((a,b) => a.name.localeCompare(b.name)).slice(0, 6).map((community, index) => {
                                 return (
                                     <a href={`/community/${community.name.replaceAll(" ", "-")}`}>
                                         <div key={index} style={{backgroundImage: `url(/api/file/${community.image}`, width: "166px", height: "133px", position: "relative", borderRadius: "10px", backgroundSize: "cover", marginBottom: "20px"}}>
-                                            <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#001F3F", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
+                                            <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#004274", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
                                         </div>
                                     </a>
                                 )
                             })
                         }
                         {
-                            abuComs && abuComs.slice(0, 6).map((community, index) => {
+                            abuComs && abuComs.sort((a,b) => a.name.localeCompare(b.name)).slice(0, 8).map((community, index) => {
                                 return (
                                     <a href={`/community/${community.name.replaceAll(" ", "-")}`}>
                                         <div key={index} style={{backgroundImage: `url(/api/file/${community.image}`, width: "166px", height: "133px", position: "relative", borderRadius: "10px", backgroundSize: "cover", marginBottom: "20px"}}>
-                                            <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#001F3F", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
+                                            <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#004274", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
                                         </div>
                                     </a>
                                 )
                             })
                         }
                         {
-                            RAKComs && RAKComs.slice(0, 6).map((community, index) => {
+                            RAKComs && RAKComs.sort((a,b) => a.name.localeCompare(b.name)).slice(0, 6).map((community, index) => {
                                 return (
                                     <a href={`/community/${community.name.replaceAll(" ", "-")}`}>
                                         <div key={index} style={{backgroundImage: `url(/api/file/${community.image}`, width: "166px", height: "133px", position: "relative", borderRadius: "10px", backgroundSize: "cover", marginBottom: "20px"}}>
-                                            <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#001F3F", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
+                                            <h3 style={{position: "absolute", bottom: "10px", fontWeight: "600", background: "#004274", color: "#fff", borderRadius: "0px 25px 25px 0px", padding: "5px 7px", fontSize: "0.85rem", maxWidth: "80%"}} className="line-clamp-1">{community.name}</h3>
                                         </div>
                                     </a>
                                 )
@@ -365,14 +356,14 @@ export default function Home() {
                             })
                         }
                     </div>
-                    <a href="/Communities" style={{ textDecoration: "none", color: "#001F3F", marginTop: "25px"}}>Explore more</a>
+                    <a href="/Communities" style={{ textDecoration: "none", color: "#004274", marginTop: "25px"}}>Explore more</a>
                 </div>
 
             </div>
 
             <Footer />
-            <div style={{color: "#ccc", background: "#001F3F", textAlign: "center", padding: "25px"}}>
-                @ Copyright 2025 <strong>Amaar Properties</strong> - All Rights Reserved.
+            <div style={{color: "#ccc", background: "#004274", textAlign: "center", padding: "25px"}}>
+                @ Copyright 2025 <strong>Amaar Asaad</strong> - All Rights Reserved.
             </div>
         </div>
     )

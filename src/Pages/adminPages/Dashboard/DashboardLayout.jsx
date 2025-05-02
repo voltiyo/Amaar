@@ -72,7 +72,7 @@ export default function AdminDashboardLayout() {
     
     
     return (
-        <div style={{display: "flex", alignItems: "center", height: "94.5vh", gridGap: "10px",overflow: "hidden", padding: "20px 0px", justifyContent: windowSize >= 800 ? "space-around": "center", background: "#001F3F"}}>
+        <div style={{display: "flex", alignItems: "center", height: "94.5vh", gridGap: "10px",overflow: "hidden", padding: "20px 0px", justifyContent: windowSize >= 800 ? "space-around": "center", background: "#004274", marginTop: "-10vh"}}>
             <div id="mobileAdminNav" style={{height: "90%", zIndex: "80", transition: "all .5s", backgroundColor: "#333", borderRadius: "10px", padding: "0px 10px", position: "absolute", right: "0px",top: "50px", transform: "translateX(300px)", display: "none"}}>
                 <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden"}}>
                     <div style={{padding: "10px", color: "white"}}>

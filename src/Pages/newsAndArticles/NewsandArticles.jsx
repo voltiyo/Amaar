@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import NavBar from "../components/NavBar"
 import Footer from "../components/Footer";
 import ArticleCompo from "../components/Article";
+import "../Offplan/Offplan.css"
 
 export default function NewsAndArticles() {
     const [articles, setArticles] = useState([])
@@ -52,10 +53,10 @@ export default function NewsAndArticles() {
                         <li>News And Articles</li>
                     </ul>
                 </div>
-                <div style={{display: "flex", alignItems: "center", justifyContent: "space-around", margin: "150px 0px", flexDirection: windowSize >= 800 ? "row" : "column"}}>
+                <div style={{display: "flex", alignItems: "start", justifyContent: "space-around", margin: "150px 0px", flexDirection: windowSize >= 800 ? "row" : "column"}}>
                     <div style={{width: windowSize >= 800 ? "60%" : "90%"}}>
                         <h3 style={{color: "#333"}}>News And Articles ({articles.length} Records Found)</h3>
-                        <div style={{display: "flex", flexDirection: "column", alignItems: "center",justifyContent: "center", width: "100%"}}>
+                        <div style={{display: "flex", flexDirection: "column", alignItems: "center",justifyContent: "center", width: "100%", gap: "20px"}}>
                             {
                                 articles.map((article, index) => (
                                     <div key={index} style={{width: "100%"}}>
@@ -83,7 +84,11 @@ export default function NewsAndArticles() {
                                                         <p style={{margin: "0px", color: "#727272"}}>{locations.length > 0 && locations.filter(location => parseInt(property.location) === location.id)[0]?.name}</p>
                                                     </small>
                                                 </span>
-                                                <h4 style={{color: "#001F3F", margin: "0px"}}>AED {property.price}</h4>
+                                                <h4 style={{color: "#004274", margin: "0px"}}>
+                                                    {
+                                                        property.price.includes("AED") === false && property.price !== "Call Us" && "AED" 
+                                                    } {property.price}
+                                                </h4>
                                             </div>
                                         </div>
                                     </a>

@@ -54,7 +54,7 @@ export default function GetInTouch() {
     
     return (
         <div style={{ border: "1px solid #ccc",width: "100%", borderRadius: "10px",overflow: "hidden", margin: "50px 0px", display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <div style={{background: "#001F3F", color: "#fff", padding: "1px 10px", width: "100%"}}>
+            <div style={{background: "#004274", color: "#fff", padding: "1px 10px", width: "100%"}}>
                 <h2 style={{textAlign: "center"}}>GET IN TOUCH</h2>
                 <p className="message" style={{textAlign: "center"}}></p>
             </div>
@@ -83,7 +83,7 @@ export default function GetInTouch() {
                 <textarea id="message" style={{width: "100%", borderRadius: "10px", border: "1px solid #ccc", resize: "none", height: "100px", padding: "10px", outline: "none", transition: "all .5s"}} placeholder="Message ..."></textarea>
                 <button onClick={SendMessage} style={{outline: "none", background: "#000", color: "#fff", fontSize: ".9rem", border: "none", width: "100%", padding: "10px", borderRadius: "10px", cursor: "pointer"}}>SEND MESSAGE</button>
                 <div style={{display: "flex", alignItems: "center", gap: "1.2rem"}}>
-                    <i className="fa fa-map-marker"></i>Building Number 52 - Floor M, Hifayif St - Al Nahyan - Abu Dhabi
+                    <i className="fa fa-map-marker"></i>3110, Tamouh Tower, Marina Square, Reem Island,<br />Abu Dhabi, United Arab Emirates
                 </div>
             </div>
             

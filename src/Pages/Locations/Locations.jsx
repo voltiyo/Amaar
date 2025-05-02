@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Search from "../components/Search";
 import Location from "../components/Location";
 import Footer from "../components/Footer"
+import "../Offplan/Offplan.css"
 function convertToM2(area) {
     if (area === 'N/A') return 0; 
     let value = area.replace(/[^\d.-]/g, ''); 
@@ -97,19 +98,19 @@ export default function Locations() {
                     </ul>
                 </div>
                 <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem", flexWrap: "wrap"}}>
-                    <div className="section-redirect " style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}} onClick={() => window.location.href = "/Offplan-Projects"}>
+                    <div className="section-redirect " style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}} onClick={() => window.location.href = "/Offplan-Projects"}>
                         <i className="ri-building-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Projects</p>
                     </div>
-                    <div className="section-redirect " style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}  onClick={() => window.location.href = "/Developers"}>
+                    <div className="section-redirect " style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}}  onClick={() => window.location.href = "/Developers"}>
                         <i className="ri-building-4-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Developers</p>
                     </div>
-                    <div className="section-redirect " style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}  onClick={() => window.location.href = "/Communities"}>
+                    <div className="section-redirect " style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}}  onClick={() => window.location.href = "/Communities"}>
                         <i className="ri-community-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Community</p>
                     </div>
-                    <div className="section-redirect active" style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}>
+                    <div className="section-redirect active" style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}}>
                         <i className="ri-map-pin-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Location</p>
                     </div>
@@ -135,7 +136,11 @@ export default function Locations() {
                                                     <p style={{margin: "0px", color: "#727272"}}>{locations.filter(location => parseInt(property.location) === location.id)[0]?.name}</p>
                                                 </small>
                                             </span>
-                                            <h4 style={{color: "#001F3F", margin: "0px"}}>{property.price}</h4>
+                                            <h4 style={{color: "#004274", margin: "0px"}}>
+                                                {
+                                                    property.price.includes("AED") === false && property.price !== "Call Us" && "AED" 
+                                                } {property.price}
+                                            </h4>
                                         </div>
                                     </a>
                                 ))

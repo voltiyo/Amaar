@@ -3,6 +3,7 @@ import Footer from "../components/Footer"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import Property from "../components/Property"
+import "../Offplan/Offplan.css"
 
 export default function Developer() {
     const { Developer } = useParams()
@@ -49,7 +50,7 @@ export default function Developer() {
                         
                 </div>
                 <div style={{display: "flex", alignItems: "center", justifyContent: "center", margin: "50px 0px"}}>
-                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "2rem", padding: "20px", border: "1px solid #ccc", width: "fit-content"}}>
+                    <div style={{display: "flex",flexDirection: windowSize >= 800 ? "row" : "column", alignItems: "center", justifyContent: "center", gap: "2rem", padding: "20px", border: "1px solid #ccc", width: "fit-content"}}>
                         <div>
                             <img src={`/api/file/${developer.logo}`} width="120" />
                         </div>
@@ -67,7 +68,7 @@ export default function Developer() {
                     <h2 style={{textAlign: "center", color: "#333", marginBottom: "0px"}}>{developer.name} Projects</h2>
                     <h4 style={{fontWeight: "500", textAlign: "center", width: windowSize >= 800 ? "50%" : "90%", color: "#727272", marginTop: "10px"}}>Take a look at the new off-plan developments in and around Dubai Take a look at some of the attractive investment offers.</h4>
 
-                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", transform: windowSize <= 800 && "scale(.7)" }}>
+                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", transform: windowSize <= 800 && "scale(.7)", gap: "1rem" }}>
                         {
                             developer.projects && developer.projects.slice(0, 6).map((project, index) => (
                                 <div key={index}>

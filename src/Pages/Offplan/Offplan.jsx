@@ -78,27 +78,27 @@ export default function Offplan() {
             <NavBar page={"offplan"}/>
             <div>
                 <div className='services-title-container'>
-                    <h1>Offplan Projects {country ? `in ${country.replaceAll("-", " ")}` : ""}</h1>
+                    <h1>Off Plan Projects {country ? `in ${country.replaceAll("-", " ")}` : ""}</h1>
                     <ul>
                         <li>Home</li>
                         <li>/</li>
-                        <li>Offplan Projects</li>
+                        <li>Off Plan Projects</li>
                     </ul>
                 </div>
                 <div style={{display: "flex", justifyContent: "center", padding: "2rem", gap: "1rem", flexWrap: "wrap"}}>
-                    <div className="section-redirect active" style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}>
+                    <div className="section-redirect active" style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}}>
                         <i className="ri-building-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Projects</p>
                     </div>
-                    <div className="section-redirect" style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}  onClick={() => window.location.href = "/Developers"}>
+                    <div className="section-redirect" style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}}  onClick={() => window.location.href = "/Developers"}>
                         <i className="ri-building-4-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Developers</p>
                     </div>
-                    <div className="section-redirect" style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}  onClick={() => window.location.href = "/Communities"}>
+                    <div className="section-redirect" style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}}  onClick={() => window.location.href = "/Communities"}>
                         <i className="ri-community-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Community</p>
                     </div>
-                    <div className="section-redirect" style={{color: "#001F3F", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #001F3F", cursor: "pointer"}}  onClick={() => window.location.href = "/Locations"}>
+                    <div className="section-redirect" style={{color: "#004274", display: "flex", flexDirection: "column", alignItems: "center", background: "white", padding: "1rem 1.5rem",borderRadius: "25px" , border: "1px solid #004274", cursor: "pointer"}}  onClick={() => window.location.href = "/Locations"}>
                         <i className="ri-map-pin-line" style={{fontSize: "3rem"}}></i>
                         <p style={{fontSize: "1.25rem", fontWeight: "600", margin: "0px"}}>Location</p>
                     </div>
@@ -111,7 +111,7 @@ export default function Offplan() {
                         <Filter setProps={setProperties}  />
                     </div>
                     <div style={{width: screenWidth >= 800 ? "60%" : "100%", transform: screenWidth <= 800 && "scale(.8)", display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "start"}}>
-                        <h4>Offplan Properties ({properties.length})</h4>
+                        <h4>Off Plan Properties ({properties.length})</h4>
                         <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(248,249,250) ", border: "1px solid #dee2e6", padding: "20px ", borderRadius: "10px"}}>
                             <div >
                                 <select defaultValue={"Sort By"} style={{outline: "none", border: "1px solid #dee2e6", cursor: "pointer", padding: "10px", fontSize: "1rem", borderRadius: "5px"}}>

@@ -30,9 +30,15 @@ function ScrollLeft() {
 
 
 export default function Carousel({ elements }) {
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+        setWindowSize(window.innerWidth);
+    })
+  }, [])
   return (
     <div style={{ width: "100%",height: "250px", display: "flex", justifyContent: "center", alignItems: "center"}} >
-      <div style={{cursor: "pointer", background: "#001F3F", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollLeft}>
+      <div style={{cursor: "pointer", background: "#004274", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollLeft}>
         <i className="fa-solid fa-arrow-left" style={{color: "#fff"}}></i>
       </div>
       
@@ -44,7 +50,7 @@ export default function Carousel({ elements }) {
               <a
                 key={index}
                 style={{
-                  width: "300px",
+                  width: windowSize >= 800 ? "300px" : "90%",
                   height: "229px",
                   display: "flex",
                   justifyContent: "start",
@@ -69,7 +75,7 @@ export default function Carousel({ elements }) {
           })
         }
       </div>
-      <div style={{ cursor: "pointer", background: "#001F3F", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollRight}>
+      <div style={{ cursor: "pointer", background: "#004274", padding: "10px 15px", borderRadius: "5px"}} onClick={ScrollRight}>
         <i className="fa-solid fa-arrow-right" style={{color: "#fff"}}></i>
       </div>
       <div></div>

@@ -5,6 +5,7 @@ import pkg from 'pg';
 import dotenv from 'dotenv';
 import fs from "fs"
 import { fileURLToPath } from "url";
+import { Resend } from 'resend';
 
 dotenv.config();
 const storage = multer.diskStorage({
@@ -157,7 +158,6 @@ app.get("/api/news", async ( req, res ) => {
   client.release()
   res.send(articles)
 })
-
 app.post("/api/VerifyAdmin", async ( req, res ) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -208,9 +208,7 @@ app.get("/api/agents", async ( req, res ) => {
   res.send(data.rows)
 })
 
-app.get("/api/test1", (req, res) => {
-	res.json("working fine")
-})
+
 
 app.post("/api/test", upload.fields([
   {name: "files"},
@@ -269,10 +267,31 @@ app.post("/api/test", upload.fields([
       res.send({ success: false })
     }
 })
-app.get("/api/test", ( req, res ) => {
-  res.send({success: true})
-})
 
+app.get("/api/devReco/:devID/:exclude", async ( req, res ) => {
+  
+  const client = await pool.connect()
+  const resp = await client.query("SELECT * FROM properties where developer_id = $1 AND id <> $2", [req.params.devID, req.params.exclude])
+  client.release();
+  res.send(resp.rows)
+})
+app.post("/api/Email", async ( req, res) => {
+  try {
+    const resend = new Resend('re_T5La44od_22sZgdF8BBZEWzm2uRyp8fkb');
+  
+    await resend.emails.send({
+      from: req.body.name + ' <onboarding@resend.dev>',
+      to: ['azizsafouane167@gmail.com'],
+      subject: "Property Listing: " + req.body.name,
+      html: `<p>phone number: ${req.body.phone_number}<br /> Projects: ${req.body.projects} <br /> Unit Type: ${req.body.unit_type} <br />  service: ${req.body.service} <br /> Size: ${req.body.size} <br /> Number Of Bedrooms: ${req.body.beds}</p>`,
+    });
+    res.send({success: true})
+
+  } catch(err) {
+    console.log(err)
+    res.send({success: false})
+  }
+})
 app.post("/api/create-property",upload.fields([
     { name: "files", maxCount: 20 },
     { name: "MapPreview", maxCount: 1 },
@@ -352,6 +371,7 @@ app.post("/api/create-article", upload.single("logo"), async ( req, res ) => {
 
   } catch (err) {
     res.send({ success: false })
+    console.log(err)
   }
 })
 
@@ -760,12 +780,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
-app.get("/api/devReco/:devID/:exclude", async ( req, res ) => {
-  const client = await pool.connect()
-  const resp = await client.query("SELECT * FROM properties where developer_id = $1 AND id <> $2", [req.params.devID, req.params.exclude])
-  client.release();
-  res.send(resp.rows)
-})
+
 
 
 app.get("/api/file/:img", ( req, res ) => {
@@ -869,6 +884,7 @@ app.post("/api/SaveLocaEdit", async ( req , res ) => {
     res.send({ success: false })
   }
 })
+
 
 
 app.post("/api/SavePropEdit",

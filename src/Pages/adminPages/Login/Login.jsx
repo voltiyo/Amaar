@@ -36,7 +36,7 @@ export default function AdminLogin() {
         })
     }, [])
     return (
-        <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#001F3F"}}>
+        <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#004274", marginTop: "-10vh"}}>
             <div style={{width: windowSize >= 800 ? "40%" : "90%", height: windowSize >= 800 ? "50%" : "40%", overflow: "scroll", display: "flex", alignItems: "center",flexDirection: "column", justifyContent: "center", background: "#003569", borderRadius: "10px", boxShadow: "0px 0px 46px -3px #000"}}>
                 <div style={{width: "50%",display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", flexDirection: "column"}} onFocus={(e) => { e.target.style.borderColor = "#fff" }} onBlur={(e) => { e.target.style.borderColor = "#003569" }}>
                     <h2 style={{margin: "0px", color: "#fff", fontSize: "2rem", textWrap: "nowrap"}}>Admin Login</h2>

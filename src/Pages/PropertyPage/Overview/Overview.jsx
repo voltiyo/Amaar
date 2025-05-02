@@ -57,27 +57,27 @@ export default function Overview({ property, developer }) {
                             Status: {property.status}
                         </div>
                         <div style={{width: "100%", flexDirection: windowSize >= 800 ? "row" : "column", display: "flex", alignItems: windowSize >= 800 ?  "center" : "start", justifyContent:"space-around", flexWrap: "wrap", textWrap: "nowrap"}}>
-                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #001F3F", padding: "10px", margin: "10px 0px"}}>
+                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #004274", padding: "10px", margin: "10px 0px"}}>
                                 <span style={{marginRight: "5px"}}>Type:</span> <p style={{margin: "0px"}}>{property.type}</p>
                             </div>
-                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #001F3F", padding: "10px", margin: "10px 0px"}}>
+                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #004274", padding: "10px", margin: "10px 0px"}}>
                                 <span style={{marginRight: "5px"}}>Bedrooms:</span> <p style={{margin: "0px"}}>{property.bedrooms}</p>
                             </div>
-                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #001F3F", padding: "10px", margin: "10px 0px"}}>
+                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #004274", padding: "10px", margin: "10px 0px"}}>
                                 <span style={{marginRight: "5px"}}>Size:</span> <p style={{margin: "0px"}}>{property.size}</p>
                             </div>
-                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #001F3F", padding: "10px", margin: "10px 0px"}}>
+                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #004274", padding: "10px", margin: "10px 0px"}}>
                                 <span style={{marginRight: "5px"}}>Payment Plan:</span> <p style={{margin: "0px"}}>{property.payment_plan}</p>
                             </div>
-                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #001F3F", padding: "10px", margin: "10px 0px"}}>
+                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #004274", padding: "10px", margin: "10px 0px"}}>
                                 <span style={{marginRight: "5px"}}>Bathrooms:</span> <p style={{margin: "0px"}}>{property.bathrooms}</p>
                             </div>
-                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #001F3F", padding: "10px", margin: "10px 0px"}}>
+                            <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "25%", borderBottom: "1px solid #004274", padding: "10px", margin: "10px 0px"}}>
                                 <span style={{marginRight: "5px"}}>Handover:</span> <p style={{margin: "0px"}}>{new Date(property.handover).getFullYear()}</p>
                             </div>
                         </div>
                     </div>
-                    <div style={{textAlign: "center", fontWeight: "600", margin: "20px", padding: "10px", borderRadius: "10px", border: "1px solid #ccc", textWrap: "nowrap", width:  windowSize <= 800 && "90%"}}>Starting From <br /> <span style={{color: "#af9500"}}>{property.price}</span></div>
+                    <div style={{textAlign: "center", fontWeight: "600", margin: "20px", padding: "10px", borderRadius: "10px", border: "1px solid #ccc", textWrap: "nowrap", width:  windowSize <= 800 && "90%"}}>Starting From <br /> <span style={{color: "orange"}}>{property.price}</span></div>
                 </div>
                 
 

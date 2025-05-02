@@ -7,10 +7,10 @@ const ToggleOpen = (e) => {
     
     if(target.style.display === "none"){
         target.style.display = "block";
-        upElement.style.background = "linear-gradient(82deg,rgb(185 147 63) 0%,rgb(185 147 63) 35%,rgb(255 255 255) 100%)"
+        upElement.style.background = "linear-gradient(82deg,rgb(255, 136, 0) 0%,rgb(255, 136, 0) 35%,rgb(255 255 255) 100%)"
         upElement.style.color = "white";
         upElement.children[1].style.transform = "rotate(180deg)";
-        upElement.children[1].style.color = "lightblue";
+        upElement.children[1].style.color = "#004274";
 
     } else {
         target.style.display = "none";
@@ -69,9 +69,9 @@ export default function Filter({setProps}) {
             <h3 style={{color: "#333", borderBottom: "1px solid rgb(0 0 0 / .15)"}}>Filter</h3>
             <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
                 <div>
-                    <div style={{display: "flex", color: "#fff", justifyContent: "space-between", alignItems: "center", cursor: "pointer", background: "linear-gradient(82deg,rgb(185 147 63) 0%,rgb(185 147 63) 35%,rgb(255 255 255) 100%)", padding: "0px 10px", borderRadius: "5px", transition: "all 300ms"}} onClick={(e) => {ToggleOpen(e)}}>
+                    <div style={{display: "flex", color: "#fff", justifyContent: "space-between", alignItems: "center", cursor: "pointer", background: "linear-gradient(82deg,rgb(255, 136, 0) 0%,rgb(255, 136, 0) 35%,rgb(255 255 255) 100%)", padding: "0px 10px", borderRadius: "5px", transition: "all 300ms"}} onClick={(e) => {ToggleOpen(e)}}>
                         <p style={{pointerEvents: "none"}}>Starting Price Range</p>
-                        <i style={{pointerEvents: "none", color: "blue", transform: "rotate(180deg)" , transition: "all 300ms"}} className="fa-solid fa-caret-down"></i>
+                        <i style={{pointerEvents: "none", color: "#004274", transform: "rotate(180deg)" , transition: "all 300ms"}} className="fa-solid fa-caret-down"></i>
                     </div>
                     <div className="search-options-1">
                         <ul style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem"}}>
@@ -171,7 +171,7 @@ export default function Filter({setProps}) {
                 </div>
                 <div>
                     <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", background: "linear-gradient(82deg,rgb(238 238 238) 0%,rgb(238 238 238) 41%,rgb(255 255 255) 99%)", padding: "0px 10px", borderRadius: "5px", transition: "all 300ms"}} onClick={(e) => {ToggleOpen(e)}}>
-                        <p style={{pointerEvents: "none"}}>Accomodation</p>
+                        <p style={{pointerEvents: "none"}}>Bedrooms</p>
                         <i style={{pointerEvents: "none" , transition: "all 300ms"}} className="fa-solid fa-caret-down"></i>
                     </div>
                     <div style={{display: "none", fontSize: ".75rem"}}>
@@ -217,7 +217,7 @@ export default function Filter({setProps}) {
                 </div>
                 <div>
                     <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", background: "linear-gradient(82deg,rgb(238 238 238) 0%,rgb(238 238 238) 41%,rgb(255 255 255) 99%)", padding: "0px 10px", borderRadius: "5px", transition: "all 300ms"}} onClick={(e) => {ToggleOpen(e)}}>
-                        <p style={{pointerEvents: "none"}}>Possession</p>
+                        <p style={{pointerEvents: "none"}}>Completion</p>
                         <i style={{pointerEvents: "none" , transition: "all 300ms"}} className="fa-solid fa-caret-down"></i>
                     </div>
                     <div style={{display: "none"}}>
@@ -286,7 +286,7 @@ export default function Filter({setProps}) {
                     </div>
                 </div>
             </div>
-            <button style={{width: "100%", margin: "10px 0px", border: "none", borderRadius: "10px", background: "#001F3F", color: "#fff", padding: "7px 0px", fontSize: "1.25rem"}}>Search</button>
+            <button style={{width: "100%", margin: "10px 0px", border: "none", borderRadius: "10px", background: "#004274", color: "#fff", padding: "7px 0px", fontSize: "1.25rem"}}>Search</button>
         </div>
     )
 }
