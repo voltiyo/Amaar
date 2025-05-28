@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-async function Download( pdf, paymentPDF, floorPDF, title ) {
+async function Download( pdf, title ) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
     document.querySelector(".message").textContent = "";
@@ -8,7 +8,6 @@ async function Download( pdf, paymentPDF, floorPDF, title ) {
     const code = document.querySelector("#phone_code").value;
     const phone_num = document.querySelector("#phonenum").value;
     const identity = document.querySelector("#identity").value;
-    const message = "pdf download"
     if (!name.length > 0) return document.querySelector(".message").textContent = "Please enter a valid name"
     if (!emailRegex.test(email)) return document.querySelector(".message").textContent = "Please enter a valid email"
     if (!phoneRegex.test(code + phone_num)) return document.querySelector(".message").textContent = "Please enter a valid phone number"
@@ -16,36 +15,22 @@ async function Download( pdf, paymentPDF, floorPDF, title ) {
     const body = {
         name,
         email,
-        code,
-        phone_num,
+        phone_number: code + phone_num,
         identity,
-        message,
+        prop: title,
+        pdf: pdf
     }
-    const response = await fetch("/api/getInTouch", {
+    const response = await fetch("/api/PDFEmail", {
         method: "POST",
         headers : {
-            "Content-Type": "Application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(body)
     });
     const data = await response.json();
     if (data.success) {
-        if (pdf === "floor") {
-            const link = document.createElement('a');
-            link.href = `/api/file/${floorPDF}`
-            link.download = `${title.replaceAll(" ", "-")}-floor-plan.pdf`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-        } else if (pdf === "payment") {
-            const link = document.createElement('a');
-            link.href = `/api/file/${paymentPDF}`
-            link.download = `${title.replaceAll(" ", "-")}-payment-plan.pdf`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        document.querySelector(".message").style.color = "green";
+        document.querySelector(".message").textContent = "An email has been sent to one of our agents, check your inbox soon !";
     } else {
         document.querySelector(".message").style.color = "red";
         document.querySelector(".message").textContent = "Error Sending Message !";
@@ -60,7 +45,7 @@ export default function BrochureDownload({ property, developer, countries, pdf }
         async function getCom() {
             const response = await fetch(`/api/communities`)
             const data = await response.json()
-            setCommunity(data.filter(com => com.id === property.community_id))
+            setCommunity(data.filter(com => com.id === property.community_id)[0])
         }
         getCom()
     }, [property])
@@ -193,7 +178,7 @@ export default function BrochureDownload({ property, developer, countries, pdf }
                             <option value="Do not want to disclose">Do not want to disclose</option>
                             <option value="Other" >Other</option>
                         </select>
-                        <button onClick={() => { Download(PDF, property.paymentplanPDF, property.floorPlanPDF, property.title) }} style={{outline: "none", background: "#000", color: "#fff", fontSize: ".9rem", border: "none", width: "100%", padding: "10px", borderRadius: "10px", cursor: "pointer"}}>Download Now</button>
+                        <button onClick={() => { Download(PDF, property.title) }} style={{outline: "none", background: "#000", color: "#fff", fontSize: ".9rem", border: "none", width: "100%", padding: "10px", borderRadius: "10px", cursor: "pointer"}}>Download Now</button>
                     </div>
                 </div>
             </div>

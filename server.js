@@ -234,77 +234,19 @@ app.post("/api/Email", async ( req, res) => {
     res.send({success: false})
   }
 })
-app.post("/api/sendPdfEmail", async ( req, res ) => {
+app.post("/api/PDFEmail", async ( req, res) => {
   try {
-    const { name, email, phone_num, identity, prop, pdf, developer } = req.body;
-    const client = await pool.connect()
     const resend = new Resend('re_T5La44od_22sZgdF8BBZEWzm2uRyp8fkb');
-
-    if (pdf === "Floor") {  
-      const propertyDetails = (await client.query('SELECT title, "floorPlanPDF" FROM properties WHERE id = $1', [prop])).rows[0]
-      const filePath = path.resolve(__dirname, "uploads", propertyDetails.floorPlanPDF)
-      const attachment = fs.readFileSync(filePath).toString('base64');
-      await resend.emails.send({
-        from: developer + ' <kloudyweb@wolvex.co.uk>',
-        to: [email],
-        subject: `${propertyDetails.title} Floor Plan PDF`,
-        html: `Hello ${name}, we recieved your request for the floor plan PDF file of the property '${propertyDetails.title}' from ${developer}, you will find it joined in this email.`,
-        attachments: [
-          {
-            content: attachment,
-            filename: propertyDetails.floorPlanPDF,
-          }
-        ]
-      });
-      await resend.emails.send({
-        from: developer + ' <kloudyweb@wolvex.co.uk>',
-        to: ["ammar@ammar.ae"],
-        subject: `${propertyDetails.title} Floor Plan PDF`,
-        html: `Hello Admin, a user requested the floor plan of <bold>${propertyDetails.title}</bold> from <bold>'${developer}'</bold> and it was sent to the following user details: <br/> name: <bold>${name}</bold> <br/> email: <bold>${email}</bold> <br/> phone number: <bold>${phone_num}</bold> <br/> identity: <bold>${identity}</bold>`,
-        attachments: [
-          {
-            content: attachment,
-            filename: propertyDetails.paymentplanPDF,
-          }
-        ]
-      });
-      
-      
-      
-    } else if (pdf === "Payment") {
-      const propertyDetails = (await client.query('SELECT title, "paymentplanPDF" FROM properties WHERE id = $1', [prop])).rows[0]
-      const filePath = path.resolve(__dirname, "uploads", propertyDetails.paymentplanPDF)
-      const attachment = fs.readFileSync(filePath).toString('base64');
-      await resend.emails.send({
-        from: developer + ' <kloudyweb@wolvex.co.uk>',
-        to: [email],
-        subject: `${propertyDetails.title} Payment Plan PDF`,
-        html: `Hello ${name}, we recieved your request for the payment plan PDF file of the property '${propertyDetails.title}' from ${developer}, you will find it joined in this email.`,
-        attachments: [
-          {
-            content: attachment,
-            filename: propertyDetails.paymentplanPDF,
-          }
-        ]
-      });
-      await resend.emails.send({
-        from: developer + ' <kloudyweb@wolvex.co.uk>',
-        to: ["ammar@ammar.ae"],
-        subject: `${propertyDetails.title} Payment Plan PDF`,
-        html: `Hello Admin, a user requested the payment plan of <bold>${propertyDetails.title}</bold> from <bold>'${developer}'</bold> and it was sent to the following user details: <br/> name: <bold>${name}</bold> <br/> email: <bold>${email}</bold> <br/> phone number: <bold>${phone_num}</bold> <br/> identity: <bold>${identity}</bold>`,
-        attachments: [
-          {
-            content: attachment,
-            filename: propertyDetails.paymentplanPDF,
-          }
-        ]
-      });
-
-    }
     
-    client.release()
+    await resend.emails.send({
+      from: ' <admin@wolvex.co.uk>',
+      to: ['ammar@ammar.ae'],
+      subject: "Pdf Inquiry: " + req.body.name,
+      html: `Hello Admin,<br /> you are beign notified about a used that is concerned about the ${req.body.pdf === "floor" ? "Floor" : "Payment"} Plan of '${req.body.prop}'. <br /> Here are the user details: <br/> <ul><li><strong>Name: </strong>${req.body.name}</li><li><strong>Email</strong>${req.body.email}</li><li><strong>Phone Number: </strong>${req.body.phone_number}</li><li><strong>Identity: </strong>${req.body.identity}</li></ul>`,
+    });
     res.send({success: true})
-  } catch (err) {
+    
+  } catch(err) {
     console.log(err)
     res.send({success: false})
   }
