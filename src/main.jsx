@@ -31,6 +31,7 @@ const EditArticle = lazy(() => import("./Pages/adminPages/Edit/NewsAndArticles/E
 const ArticlePage = lazy(() => import("./Pages/ArticlePage/ArticlePage"));
 const AboutUs = lazy(() => import("./Pages/About/AboutUs"));
 const Privacy = lazy(() => import("./Pages/Privacy/Privacy"));
+const EditOption = lazy(() => import("./Pages/adminPages/Edit/Option/EditOption"));
 
 
 
@@ -70,6 +71,7 @@ root.render(
         <Route path="/Admin/Article/edit/:ID" element={<EditArticle />}></Route>
         <Route path="/Admin/Location/edit/:ID" element={<EditLoca />}></Route>
         <Route path="/Admin/community/edit/:ID" element={<EditCom />}></Route>
+        <Route path="/Admin/option/edit/:ID" element={<EditOption />}></Route>
       </Route>
     </Routes>
   </Router>

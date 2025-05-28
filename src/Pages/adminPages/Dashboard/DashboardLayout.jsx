@@ -12,6 +12,7 @@ import Communities from "./Communities/Communities"
 import States from "./States/States"
 import Locations from "./Locations/Locations"
 import Messages from "./Messages/Messages"
+import Options from "./Options/Options"
 
 function ShowMobileMenu() {
     document.querySelector("#mobileAdminNav").style.display = "block"
@@ -68,6 +69,7 @@ export default function AdminDashboardLayout() {
         {name: "Agents", icon: "laptop"},
         {name: "News And Articles", icon: "newspaper"},
         {name: "Messages", icon: "message"},
+        {name: "Options", icon: "gear"},
     ]
     
     
@@ -137,6 +139,7 @@ export default function AdminDashboardLayout() {
                     {page === "Agents" && <Agents />}
                     {page === "News And Articles" && <NewsAndArticles />}
                     {page === "Messages" && <Messages />}
+                    {page === "Options" && <Options />}
                 </div>
             </div>
         </div>

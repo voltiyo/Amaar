@@ -3,6 +3,8 @@ import multer from "multer"
 import path from "path"
 import pkg from 'pg';
 import dotenv from 'dotenv';
+import https from 'https';
+import http from 'http';
 import fs from "fs"
 import { fileURLToPath } from "url";
 import { Resend } from 'resend';
@@ -10,10 +12,10 @@ import { Resend } from 'resend';
 dotenv.config();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, "uploads/");  // Store files in the 'uploads' folder
+      cb(null, "uploads/");  
   },
   filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname));  // Unique filename
+      cb(null, Date.now() + path.extname(file.originalname));  
   }
 });
 const fileFilter = (req, file, cb) => {
@@ -50,9 +52,15 @@ const pool = new Pool({
 const app = express();
 app.use(express.json());
 
+app.get("/api/optionalOptions", async ( req, res ) => {
+  const client = await pool.connect();
+  const data = (await pool.query("SELECT * FROM options")).rows
+  client.release()
+  res.send(data)
+})
 app.get("/api/properties", async (req, res) => {
   const client = await pool.connect();
-  const data = await client.query("SELECT * FROM properties")
+  const data = await client.query("SELECT * FROM properties ORDER BY title ASC")
   client.release();
   res.send(data.rows)
 })
@@ -81,7 +89,7 @@ app.get("/api/propertiesIn/:city", async ( req, res ) => {
 
 app.get("/api/locations", async (req, res) => {
   const client = await pool.connect();
-  const data = await client.query("SELECT * FROM locations")
+  const data = await client.query("SELECT * FROM locations ORDER BY name ASC")
   client.release();
   res.send(data.rows)
 })
@@ -90,7 +98,7 @@ app.get("/api/locations", async (req, res) => {
 
 app.get("/api/developers", async (req, res) => {
   const client = await pool.connect();
-  const data = await client.query("SELECT * FROM developers")
+  const data = await client.query("SELECT * FROM developers ORDER BY name ASC")
   const Response = []
 
   for (const dev of data.rows) {
@@ -180,7 +188,7 @@ app.post("/api/VerifyAdmin", async ( req, res ) => {
 
 app.get("/api/communities", async ( req, res ) => {
   const client = await pool.connect();
-  const data = await client.query("SELECT * FROM communities")
+  const data = await client.query("SELECT * FROM communities ORDER BY name ASC ")
   const coms = []
 
   for (const com of data.rows){
@@ -209,65 +217,207 @@ app.get("/api/agents", async ( req, res ) => {
 })
 
 
+app.post("/api/Email", async ( req, res) => {
+  try {
+    const resend = new Resend('re_T5La44od_22sZgdF8BBZEWzm2uRyp8fkb');
+    
+    await resend.emails.send({
+      from: req.body.name + ' <admin@wolvex.co.uk>',
+      to: ['ammar@ammar.ae'],
+      subject: "Property Listing: " + req.body.name,
+      html: `<p>phone number: ${req.body.phone_number}<br /> Projects: ${req.body.projects} <br /> Unit Type: ${req.body.unit_type} <br />  service: ${req.body.service} <br /> Size: ${req.body.size} <br /> Number Of Bedrooms: ${req.body.beds}</p>`,
+    });
+    res.send({success: true})
+    
+  } catch(err) {
+    console.log(err)
+    res.send({success: false})
+  }
+})
+app.post("/api/sendPdfEmail", async ( req, res ) => {
+  try {
+    const { name, email, phone_num, identity, prop, pdf, developer } = req.body;
+    const client = await pool.connect()
+    const resend = new Resend('re_T5La44od_22sZgdF8BBZEWzm2uRyp8fkb');
 
-app.post("/api/test", upload.fields([
-  {name: "files"},
-  {name: "LocationMapPreview"},
-  {name: "MasterPlanPreview"},
-  {name: "PaymentPlanPDF"},
-  {name: "FloorPlanPDF"},
-]),
-
-  async (req,res) => {
-    try{
-
-      const FormattedFeatures = []
-      for (const feature of JSON.parse(req.body.features)) {
-        FormattedFeatures.push(feature.value)
-      }
-      const title = req.body.title;
-      const description = req.body.description;
-      const price = req.body.price;
-      const status = req.body.status;
-      const size = req.body.size;
-      const bathrooms = parseInt(req.body.bathrooms) | 2;  
-      const bedrooms = parseInt(req.body.bedrooms) | 2;
-      const type = req.body.type;
-      const dev = req.body.developer_id;
-      const nearby_places = req.body.nearby_places;
-      const loca_desc = req.body.location_description;
-      const payplan = req.body.payment_plan;
-      const hand = req.body.handover;
-      const pay_desc = req.body.payment_plan_description;
-      const features_description = req.body.features_description;
-      const floor_plan_description = req.body.floor_plan_description;
-      const master_plan_description = req.body.master_plan_description;
-      const state = req.body.state;
-      const location_id = req.body.location_id;
-      const com_id = req.body.community_id
+    if (pdf === "Floor") {  
+      const propertyDetails = (await client.query('SELECT title, "floorPlanPDF" FROM properties WHERE id = $1', [prop])).rows[0]
+      const filePath = path.resolve(__dirname, "uploads", propertyDetails.floorPlanPDF)
+      const attachment = fs.readFileSync(filePath).toString('base64');
+      await resend.emails.send({
+        from: developer + ' <kloudyweb@wolvex.co.uk>',
+        to: [email],
+        subject: `${propertyDetails.title} Floor Plan PDF`,
+        html: `Hello ${name}, we recieved your request for the floor plan PDF file of the property '${propertyDetails.title}' from ${developer}, you will find it joined in this email.`,
+        attachments: [
+          {
+            content: attachment,
+            filename: propertyDetails.floorPlanPDF,
+          }
+        ]
+      });
+      await resend.emails.send({
+        from: developer + ' <kloudyweb@wolvex.co.uk>',
+        to: ["ammar@ammar.ae"],
+        subject: `${propertyDetails.title} Floor Plan PDF`,
+        html: `Hello Admin, a user requested the floor plan of <bold>${propertyDetails.title}</bold> from <bold>'${developer}'</bold> and it was sent to the following user details: <br/> name: <bold>${name}</bold> <br/> email: <bold>${email}</bold> <br/> phone number: <bold>${phone_num}</bold> <br/> identity: <bold>${identity}</bold>`,
+        attachments: [
+          {
+            content: attachment,
+            filename: propertyDetails.paymentplanPDF,
+          }
+        ]
+      });
       
-      const Images = []
-      for (const img of req.files.files) {
-        Images.push(img.filename)
-      }
-      const LocationMapPreview = req.files.LocationMapPreview[0].filename;
-      const MasterPlanPreview = req.files.MasterPlanPreview[0].filename;
-      const PaymentPlanPDF = req.files.PaymentPlanPDF[0].filename;
-      const FloorPlanPDF = req.files.FloorPlanPDF[0].filename;
       
-      const client = await pool.connect();
-  
-      const query = "INSERT INTO properties VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, DEFAULT, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)"
-      const values = [title, description, price, type, status, bedrooms, bathrooms, size, com_id, location_id, JSON.stringify(FormattedFeatures), payplan, hand, features_description, FloorPlanPDF, floor_plan_description, pay_desc, LocationMapPreview, loca_desc, nearby_places, MasterPlanPreview, master_plan_description, Images, dev, PaymentPlanPDF, state]
-  
-      await client.query(query, values)
-      client.release()
-      res.send({ success: true })
-    } catch {
-      res.send({ success: false })
+      
+    } else if (pdf === "Payment") {
+      const propertyDetails = (await client.query('SELECT title, "paymentplanPDF" FROM properties WHERE id = $1', [prop])).rows[0]
+      const filePath = path.resolve(__dirname, "uploads", propertyDetails.paymentplanPDF)
+      const attachment = fs.readFileSync(filePath).toString('base64');
+      await resend.emails.send({
+        from: developer + ' <kloudyweb@wolvex.co.uk>',
+        to: [email],
+        subject: `${propertyDetails.title} Payment Plan PDF`,
+        html: `Hello ${name}, we recieved your request for the payment plan PDF file of the property '${propertyDetails.title}' from ${developer}, you will find it joined in this email.`,
+        attachments: [
+          {
+            content: attachment,
+            filename: propertyDetails.paymentplanPDF,
+          }
+        ]
+      });
+      await resend.emails.send({
+        from: developer + ' <kloudyweb@wolvex.co.uk>',
+        to: ["ammar@ammar.ae"],
+        subject: `${propertyDetails.title} Payment Plan PDF`,
+        html: `Hello Admin, a user requested the payment plan of <bold>${propertyDetails.title}</bold> from <bold>'${developer}'</bold> and it was sent to the following user details: <br/> name: <bold>${name}</bold> <br/> email: <bold>${email}</bold> <br/> phone number: <bold>${phone_num}</bold> <br/> identity: <bold>${identity}</bold>`,
+        attachments: [
+          {
+            content: attachment,
+            filename: propertyDetails.paymentplanPDF,
+          }
+        ]
+      });
+
     }
+    
+    client.release()
+    res.send({success: true})
+  } catch (err) {
+    console.log(err)
+    res.send({success: false})
+  }
 })
 
+app.post("/api/uploadFloor", upload.single("FloorPlanPDF"), async ( req, res ) => {
+  try {
+    const client = await pool.connect();
+    const { title } = req.body;
+    const pdf = req.file.filename
+    const rows = await client.query("SELECT * FROM properties WHERE title = $1", [title])
+    if (rows.rowCount > 0) {
+      await client.query('UPDATE properties SET "floorPlanPDF" = $1 where id = $2', [pdf, rows.rows[0].id])
+    }
+    res.send({success: true})
+    client.release()
+  } catch(err) {
+    res.send({success: false})
+    console.log(err)
+  }
+})
+app.post("/api/uploadPayment", upload.single("paymentplanPDF"), async ( req, res ) => {
+  try {
+    const client = await pool.connect();
+    const { title } = req.body;
+    const pdf = req.file.filename
+    const rows = await client.query("SELECT * FROM properties WHERE title = $1", [title])
+    if (rows.rowCount > 0) {
+      await client.query('UPDATE properties SET "paymentplanPDF" = $1 where id = $2', [pdf, rows.rows[0].id])
+    }
+    client.release()
+    res.send({success: true})
+  } catch(err) {
+    res.send({success: false})
+    console.log(err)
+  }
+})
+async function downloadImage(url) {
+  const folder = path.join(__dirname, 'uploads');
+  if (!fs.existsSync(folder)) fs.mkdirSync(folder);
+
+  const ext = path.extname(url.split('?')[0]) || '.jpg'; // default to .jpg
+  const filename = `${Date.now()}${ext}`;
+  const filepath = path.join(folder, filename);
+
+  const protocol = url.startsWith('https') ? https : http;
+
+  const file = fs.createWriteStream(filepath);
+
+  protocol.get(url, (response) => {
+    if (response.statusCode !== 200) {
+      return;
+    }
+
+    response.pipe(file);
+    file.on('finish', () => {
+      file.close();
+    });
+  }).on('error', (err) => {
+    fs.unlink(filepath, () => {});
+  });
+  return filename
+}
+
+app.post("/api/UploadFeatures", async ( req, res ) => {
+  try {
+    const client = await pool.connect()
+    const features = req.body;
+
+    const PropID = (await client.query("SELECT id FROM properties WHERE title = $1", [req.body[0].property])).rows[0].id;
+
+    for (const feature of features) {
+      const filename = await downloadImage(feature.image)
+      await client.query("INSERT INTO features VALUES (DEFAULT, $1, $2, $3, $4)", [feature.header, feature.description, filename, PropID])
+    }
+    res.send({ success: true })
+    client.release()
+  } catch (error) {
+    console.log(error)
+    res.send({ success: false })
+  }
+})
+
+app.post("/api/test-payment", async ( req, res ) => {
+  try {
+    const propertyName = req.body.prop;
+    const client = await pool.connect();
+    const propertyID = (await client.query("SELECT id FROM properties WHERE title = $1", [propertyName])).rows[0].id;
+    const paymentDetails = req.body
+    await client.query(`INSERT INTO "paymentInstallments" VALUES (DEFAULT, $1, $2, $3, $4)`, [paymentDetails.installment, paymentDetails.payment, paymentDetails.milestone, propertyID])
+
+    client.release()
+    res.send({success: true})
+  } catch (e){
+    console.log(e)
+    res.send({success: false})
+  }
+})
+app.post("/api/test-paymentHeader", async ( req, res) => {
+  try {
+    const propertyName = req.body.prop;
+    const client = await pool.connect();
+    const propertyID = (await client.query("SELECT id FROM properties WHERE title = $1", [propertyName])).rows[0].id;
+    const body = req.body
+    await client.query(`INSERT INTO "paymentPlanHeaders" VALUES (DEFAULT, $1, $2)`, [body.header, propertyID])
+    
+    client.release()
+    
+    res.send({success: true})
+  } catch (error) {
+    res.send({success: false})
+  }
+})
 app.get("/api/devReco/:devID/:exclude", async ( req, res ) => {
   
   const client = await pool.connect()
@@ -275,20 +425,14 @@ app.get("/api/devReco/:devID/:exclude", async ( req, res ) => {
   client.release();
   res.send(resp.rows)
 })
-app.post("/api/Email", async ( req, res) => {
+app.post("/api/create-option", async ( req, res ) => {
+  const client = await pool.connect();
   try {
-    const resend = new Resend('re_T5La44od_22sZgdF8BBZEWzm2uRyp8fkb');
-  
-    await resend.emails.send({
-      from: req.body.name + ' <onboarding@resend.dev>',
-      to: ['azizsafouane167@gmail.com'],
-      subject: "Property Listing: " + req.body.name,
-      html: `<p>phone number: ${req.body.phone_number}<br /> Projects: ${req.body.projects} <br /> Unit Type: ${req.body.unit_type} <br />  service: ${req.body.service} <br /> Size: ${req.body.size} <br /> Number Of Bedrooms: ${req.body.beds}</p>`,
-    });
+    await client.query("INSERT INTO options VALUES (DEFAULT, $1, $2)", [req.body.name, req.body.value])
+    client.release()
     res.send({success: true})
-
-  } catch(err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
     res.send({success: false})
   }
 })
@@ -310,14 +454,16 @@ app.post("/api/create-property",upload.fields([
     for (const feature of ReqData.features) {
       FormattedFeatures.push(feature.value) 
     }
-
-
-
+    
     const values = [ReqData.title, ReqData.description, ReqData.price, ReqData.type, ReqData.status, parseInt(ReqData.bedrooms), parseInt(ReqData.bathrooms), ReqData.size,ReqData.community_id, ReqData.location, FormattedFeatures, ReqData.payment_plan, ReqData.handover, ReqData.features_description,req.files.FloorPlanPdf[0].filename, ReqData.floor_plan_description, ReqData.payment_plan_description, req.files.MapPreview[0].filename, ReqData.location_description, ReqData.nearby_places, req.files.MasterPlanPreview[0].filename,ReqData.master_plan_description ,images, ReqData.developer_id, req.files.PaymentPlanPdf[0].filename, ReqData.state]
     
     
-    await client.query("INSERT INTO properties VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, DEFAULT, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)", values)
-  
+    const PropID = await client.query("INSERT INTO properties VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, DEFAULT, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING id", values)
+    
+    for (const floor of ReqData.floors) {
+      await client.query(`INSERT INTO "floorDetails" VALUES (DEFAULT, $1, $2, $3, $4, $5, $6)`, [req.files.floorPlanImage[floor.img].filename, floor.category, floor.details, floor.sizes, floor.type, PropID])
+    }
+    
     client.release();
     res.send({success: true})
   } catch (err) {
@@ -399,6 +545,22 @@ app.post("/api/delete-developer", async ( req, res) => {
     
     for (const dev of req.body.developers) {
       await client.query(query, [dev])
+    }
+
+    client.release()
+    res.send({success: true})
+  } catch (err) {
+    res.send({success: false})
+  }
+})
+app.post("/api/delete-options", async ( req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const query = "DELETE FROM options WHERE id = $1"
+    
+    for (const opt of req.body.options) {
+      await client.query(query, [opt])
     }
 
     client.release()
@@ -506,12 +668,16 @@ app.post("/api/property", async ( req, res ) => {
 
     const query = "SELECT * FROM properties WHERE title = $1"
 
-    const data = await client.query(query, [propertyTitle])
-    
+    const data = (await client.query(query, [propertyTitle])).rows[0]
+    data.floorDetails = (await client.query(`SELECT * FROM "floorDetails" WHERE property = $1::text`, [data.id])).rows
+    data.paymentPlanHeader = (await client.query(`SELECT * FROM "paymentPlanHeaders" WHERE property = $1::text`, [data.id])).rows[0]?.header
+    data.paymentPlanDetails = (await client.query(`SELECT * FROM "paymentInstallments" WHERE property = $1::text ORDER BY id ASC`, [data.id])).rows
+
     
     client.release();
-    res.send(data.rows[0])
+    res.send(data)
   } catch (e) {
+    console.log(e)
     res.send({success: false})
   }
 })
@@ -761,23 +927,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-let PORT = process.env.PORT || 5000;
-if (process.env.NODE_ENV === "production") {
-  console.log("production mode enabled !")
-  app.use(express.static(path.join(__dirname, "dist")));
-  app.use("/public", express.static(path.join(__dirname, "public")));
-  app.get("/api/file/:img", ( req, res ) => {
-    const fileName = req.params.img;
-    const filePath = path.resolve(__dirname, "uploads", fileName);
-    res.sendFile(filePath);
-  })
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "dist", "index.html"));
-  });
-  PORT = process.env.PORT || 3000;
-} else {
-  console.log("dev mode enabled !")
-}
+
 
 
 
@@ -849,6 +999,18 @@ app.post("/api/SaveDevEdit", upload.single("image"), async ( req , res ) => {
     else {
       await client.query("UPDATE developers SET name = $2, contact_info = $3, website  = $4, description = $5 WHERE id = $1 RETURNING *", [req.body.ID, req.body.name, req.body.contact, req.body.website, req.body.description])
     }
+    client.release()
+    res.send({ success: true })
+  } catch {
+    res.send({ success: false })
+  }
+})
+app.post("/api/SaveOptEdit", async ( req , res ) => {
+  const client = await pool.connect();
+  console.log(req.body)
+  try {
+    await client.query(`UPDATE options SET "optionName" = $1, "optionValue" = $2 WHERE id = $3`, [req.body.optionName, req.body.optionValue, req.body.id])
+
     client.release()
     res.send({ success: true })
   } catch {
@@ -982,5 +1144,21 @@ app.get("/api/Messages", async ( req, res ) => {
   res.send(response.rows)
 })
 
-
+let PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV === "production") {
+  console.log("production mode enabled !")
+  app.use(express.static(path.join(__dirname, "dist")));
+  app.use("/public", express.static(path.join(__dirname, "public")));
+  app.get("/api/file/:img", ( req, res ) => {
+    const fileName = req.params.img;
+    const filePath = path.resolve(__dirname, "uploads", fileName);
+    res.sendFile(filePath);
+  })
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  });
+  PORT = process.env.PORT || 3000;
+} else {
+  console.log("dev mode enabled !")
+}
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

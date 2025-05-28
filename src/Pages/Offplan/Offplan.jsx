@@ -11,14 +11,14 @@ import { useParams } from "react-router-dom";
 
 
 export default function Offplan() {
+    const [sortBy, setSortBy] = useState("")
     const [properties, setProperties] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const { country, q, type } = useParams();
     const [screenWidth, setScreenWidth] = useState(window.innerWidth)
     const itemsPerPage = 10;
     const [totalPages, setTotalPages] = useState(Math.ceil(properties.length / itemsPerPage))
-    const [startIndex, setStartIndex] = useState((currentPage - 1) * itemsPerPage)
-    const [paginatedProperties, setPaginatedProperties] = useState(properties.slice(startIndex, startIndex + itemsPerPage))
+    const [paginatedProperties, setPaginatedProperties] = useState(properties.slice(0, 0 + itemsPerPage))
     const [searchTerm, setSearchTerm] = useState(q ? q.replaceAll("-", " ").toLowerCase() : "")
 
     useEffect(() => {
@@ -64,14 +64,34 @@ export default function Offplan() {
 
     useEffect(() => {
         if (properties.length > 0) {
-            const filteredCommunity = properties?.filter(prop => 
+            const filteredCommunity = properties?.filter(prop =>
                 prop.title.toLowerCase().includes(searchTerm)
             );
-            setTotalPages(Math.ceil(filteredCommunity.length / itemsPerPage));
-            setStartIndex((currentPage - 1) * itemsPerPage);
-            setPaginatedProperties(filteredCommunity.slice(startIndex, startIndex + itemsPerPage));
+            const newTotalPages = Math.ceil(filteredCommunity.length / itemsPerPage);
+            const newStartIndex = (currentPage - 1) * itemsPerPage;
+            const paginated = filteredCommunity.slice(newStartIndex, newStartIndex + itemsPerPage);
+            
+            setTotalPages(newTotalPages);
+            setPaginatedProperties(paginated);
         }
     }, [properties, currentPage, searchTerm]);
+
+
+    useEffect(() => {
+        if (sortBy === "Newest") {
+            setProperties([...properties].sort((a,b) => new Date(b.created_at) - new Date(a.created_at)))
+            setCurrentPage(1)
+        } else if (sortBy === "Oldest") {
+            setProperties([...properties].sort((a,b) => new Date(a.created_at) - new Date(b.created_at)))
+            setCurrentPage(1)
+        } else if (sortBy === "Price High to Low") {
+            setProperties([...properties].sort((a,b) => parseInt(b.price.replaceAll(",", "").replace("AED", "").replace("Call Us", "0")) - parseInt(a.price.replaceAll(",", "").replace("AED", "").replace("Call Us", "0"))))
+            setCurrentPage(1)
+        } else if (sortBy === "Price Low to High") {
+            setProperties([...properties].sort((a,b) => parseInt(a.price.replaceAll(",", "").replace("AED", "").replace("Call Us", "0")) - parseInt(b.price.replaceAll(",", "").replace("AED", "").replace("Call Us", "0"))))
+            setCurrentPage(1)
+        }
+    }, [sortBy])
 
     return (
         <div>
@@ -114,15 +134,15 @@ export default function Offplan() {
                         <h4>Off Plan Properties ({properties.length})</h4>
                         <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(248,249,250) ", border: "1px solid #dee2e6", padding: "20px ", borderRadius: "10px"}}>
                             <div >
-                                <select defaultValue={"Sort By"} style={{outline: "none", border: "1px solid #dee2e6", cursor: "pointer", padding: "10px", fontSize: "1rem", borderRadius: "5px"}}>
-                                    <option value="Sort By">Sort By</option>
+                                <select defaultValue={"Sort By"} value={sortBy} onChange={(e) => { setSortBy(e.target.value) }} style={{outline: "none", border: "1px solid #dee2e6", cursor: "pointer", padding: "10px", fontSize: "1rem", borderRadius: "5px"}}>
+                                    <option value="Sort By" hidden>Sort By</option>
                                     <option value="Newest">Newest</option>
                                     <option value="Oldest">Oldest</option>
                                     <option value="Price High to Low">Price High to Low</option>
                                     <option value="Price Low to High">Price Low to High</option>
                                 </select>
                             </div>
-                            <Search value={q} data={properties} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()) }}/>
+                            <Search value={q} data={properties} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()); setCurrentPage(1) }}/>
                         </div>
 
                         <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px", marginTop: "50px", width: "100%"}}>
@@ -143,7 +163,7 @@ export default function Offplan() {
                                 <button disabled={currentPage === 1} onClick={() => {setCurrentPage(currentPage - 1)}}>
                                     Previous
                                 </button>
-                                <span>Page {currentPage} of {totalPages}</span>
+                                <p>Page <span className="pageIndex">{currentPage}</span> of {totalPages}</p>
                                 <button disabled={currentPage === totalPages} onClick={() => {setCurrentPage(currentPage + 1);}}>
                                     Next
                                 </button>

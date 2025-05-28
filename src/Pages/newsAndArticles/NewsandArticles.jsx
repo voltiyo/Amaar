@@ -71,7 +71,7 @@ export default function NewsAndArticles() {
                             <h3>Recent Projects</h3>
                             {
                                 recentProperties.length > 0 && recentProperties.map((property, index) => (
-                                    <a href={`/Property/${property.name}`}  key={index}>
+                                    <a href={`/Projects/${property.title.replaceAll(" ", "-")}`}  key={index}>
                                         <div style={{display: "flex", alignItems:" center ", gap: "10px", borderBottom: index !== recentProperties.length - 1 ? "1px dashed  #ccc" : "", padding: "10px"}}>
                                             <div>
                                                 <img src={`/api/file/${JSON.parse(property.images.replace("{", "[").replace("}","]"))[0]}`} width={120} height={75} alt="" style={{borderRadius: "5px"}}/>

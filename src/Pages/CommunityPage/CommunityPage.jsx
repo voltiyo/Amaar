@@ -59,9 +59,9 @@ export default function CommunityPage() {
                     <h2 style={{textAlign: "center", color: "#333", marginBottom: "0px"}}>Available Projects</h2>
                     <h4 style={{fontWeight: "500", textAlign: "center", width: "50%", color: "#727272", marginTop: "10px"}}>Take a look at the new off-plan developments in and around Dubai Take a look at some of the attractive investment offers.</h4>
 
-                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", width: "100%", gap: "3rem"}}>
+                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", width: "100%", gap: "3rem", paddingBottom: "20px"}}>
                         {
-                            community.projects && community.projects.slice(0, 6).map((project, index) => (
+                            community.projects && community.projects.map((project, index) => (
                                 <div key={index}>
                                     <Property data={project}  />
                                 </div>

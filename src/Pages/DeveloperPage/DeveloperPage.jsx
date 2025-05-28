@@ -64,13 +64,13 @@ export default function Developer() {
                         </div>
                     </div>
                 </div>
-                <div style={{background: "rgb(248, 249, 250)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
+                <div style={{background: "rgb(248, 249, 250)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", paddingBottom: windowSize >= 800 && "30px"}}>
                     <h2 style={{textAlign: "center", color: "#333", marginBottom: "0px"}}>{developer.name} Projects</h2>
                     <h4 style={{fontWeight: "500", textAlign: "center", width: windowSize >= 800 ? "50%" : "90%", color: "#727272", marginTop: "10px"}}>Take a look at the new off-plan developments in and around Dubai Take a look at some of the attractive investment offers.</h4>
 
                     <div style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", transform: windowSize <= 800 && "scale(.7)", gap: "1rem" }}>
                         {
-                            developer.projects && developer.projects.slice(0, 6).map((project, index) => (
+                            developer.projects && developer.projects.map((project, index) => (
                                 <div key={index}>
                                     <Property data={project}  />
                                 </div>

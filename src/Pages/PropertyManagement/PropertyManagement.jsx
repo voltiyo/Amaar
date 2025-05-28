@@ -6,6 +6,7 @@ import "../Offplan/Offplan.css"
 
 
 async function SendEmail() {
+    const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
     const name = document.querySelector("#name").value
     const phone_number = document.querySelector("#phone_number").value
     const projects = document.querySelector("#projects").value
@@ -13,7 +14,12 @@ async function SendEmail() {
     const sell_rent = document.querySelector('input[name="sell-rent"]:checked').value
     const size = document.querySelector("#size").value
     const beds = document.querySelector("#beds").value
-
+    if (name.length <= 0) return document.querySelector("#error").textContent = "Please Enter A Valid Name"
+    if (!phoneRegex.test(phone_number)) return document.querySelector("#error").textContent = "Please Enter A Valid Phone Number"
+    if (projects.length <= 0) return document.querySelector("#error").textContent = "Please Enter At Least One Project"
+    if (unit_type.length <= 0) return document.querySelector("#error").textContent = "Please Enter A Valid Unit Type"
+    if (size.length <= 0) return document.querySelector("#error").textContent = "Please Enter A Valid Size"
+    if (beds.length <= 0) return document.querySelector("#error").textContent = "Please Enter The Number Of Bedrooms"
     const response = await fetch('/api/Email', {
         method: "POST", 
         headers: {
@@ -98,6 +104,7 @@ export default function PropertyManagement() {
                 <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                     <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "20px", border: "1px solid #ccc", borderRadius: "15px", width: "50%"}}>
                         <h3>Property Listing :</h3>
+                        <p id="error" style={{color: "red"}}></p>
                         <div style={{width: "100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "1rem"}} onFocus={(e) => { e.target.style.borderColor = "#004274"; e.target.style.color= "#004274"  }} onBlur={(e) => { e.target.style.borderColor = "#ccc"; e.target.style.color= "#000"  }}>
                             <input id="name" type="text" placeholder="Name"  style={{width: "50%", outline: "none", border: "1px solid #ccc", color: "#000", fontWeight: "600", borderRadius: "5px", fontSize: "0.9rem", padding: "5px 10px", transition: "all 500ms"}}/>
                             <input id="phone_number" type="text" placeholder="Phone Number"  style={{width: "50%", outline: "none", border: "1px solid #ccc", color: "#000", fontWeight: "600", borderRadius: "5px", fontSize: "0.9rem", padding: "5px 10px", transition: "all 500ms"}}/>

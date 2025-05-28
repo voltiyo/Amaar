@@ -32,7 +32,7 @@ export default function Property( data ) {
                             data.data.price.includes("AED") === false && data.data.price !== "Call Us" && "AED" 
                         } {data.data.price}
                     </h4>
-                    <h4 href={`/Projects/${data.data.title}`} style={{color: "#757575", fontWeight: "600", margin: "0px"}}>{data.data.title}</h4>
+                    <h4 href={`/Projects/${data.data.title}`} id="prop-title" style={{color: "#757575", fontWeight: "600", margin: "0px"}}>{data.data.title}</h4>
                     <div style={{display: "flex", alignItems: "center", justifyContent: "center", color: "#757575", width: "fit-content", gap: "5px"}}>
                         <i className="ri-map-pin-line" style={{color: "#004274"}}></i>
                         <p>{locations.length > 0 && locations.filter(location => parseInt(data.data.location) === location.id)[0]?.name}</p>

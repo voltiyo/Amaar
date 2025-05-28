@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
 
-export default function GetInTouch() {
-    const [countries , setCountries] = useState([])
+export default function GetInTouch( { countries }) {
     
     
     
     async function SendMessage() {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
         document.querySelector(".message").textContent = "";
         const name = document.querySelector("#name").value;
         const email = document.querySelector("#email").value;
@@ -14,7 +15,10 @@ export default function GetInTouch() {
         const phone_num = document.querySelector("#phonenum").value;
         const identity = document.querySelector("#identity").value;
         const message = document.querySelector("#message").value;
-
+        if (!name.length > 0) return document.querySelector(".message").textContent = "Please enter a valid name"
+        if (!emailRegex.test(email)) return document.querySelector(".message").textContent = "Please enter a valid email"
+        if (!phoneRegex.test(code + phone_num)) return document.querySelector(".message").textContent = "Please enter a valid phone number"
+        if (message.length < 100) return document.querySelector(".message").textContent = "Your message should contain at least 100 character"
         const body = {
             name,
             email,
@@ -41,15 +45,6 @@ export default function GetInTouch() {
 
 
     }
-
-    useEffect(() => {
-        async function GetCountries() {
-            const response = await fetch("https://countriesnow.space/api/v0.1/countries/codes")
-            const data = await response.json()
-            setCountries(data.data)
-        }
-        GetCountries();
-    }, [])
 
     
     return (
@@ -80,7 +75,7 @@ export default function GetInTouch() {
                     <option value="Do not want to disclose">Do not want to disclose</option>
                     <option value="Other" >Other</option>
                 </select>
-                <textarea id="message" style={{width: "100%", borderRadius: "10px", border: "1px solid #ccc", resize: "none", height: "100px", padding: "10px", outline: "none", transition: "all .5s"}} placeholder="Message ..."></textarea>
+                <textarea id="message" minLength={100} maxLength={200} style={{width: "100%", borderRadius: "10px", border: "1px solid #ccc", resize: "none", height: "100px", padding: "10px", outline: "none", transition: "all .5s"}} placeholder="Message ..."></textarea>
                 <button onClick={SendMessage} style={{outline: "none", background: "#000", color: "#fff", fontSize: ".9rem", border: "none", width: "100%", padding: "10px", borderRadius: "10px", cursor: "pointer"}}>SEND MESSAGE</button>
                 <div style={{display: "flex", alignItems: "center", gap: "1.2rem"}}>
                     <i className="fa fa-map-marker"></i>3110, Tamouh Tower, Marina Square, Reem Island,<br />Abu Dhabi, United Arab Emirates

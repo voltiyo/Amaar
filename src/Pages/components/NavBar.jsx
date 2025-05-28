@@ -45,7 +45,7 @@ export default function NavBar({ page }) {
     }, [])
     
     return (
-        <div style={{ display: "flex", justifyContent: "start", height: '10vh', position: "fixed", top: "0px", width: "100%", background: "#fff", zIndex: "80", backgroundColor: " #004274 " }}>
+        <div style={{ display: "flex", justifyContent: "start", height: '10vh', position: "fixed", top: "0px", width: "100%", background: "#fff", zIndex: "80", backgroundColor: " #004274 "}}>
             <a href="/" style={{width: windowSize >= 800 ? "12%" : "45%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <div style={{ width: "100%", margin: "0px 30px", position: "relative" }}>
                     <img src="/2.png" alt="Amaar Properties" style={{width: "100%"}} />

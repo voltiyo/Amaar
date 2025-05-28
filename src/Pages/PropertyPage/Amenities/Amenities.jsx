@@ -8,19 +8,11 @@ export default function Amenities({property}) {
         async function GetFeatures() {
             const resp = await fetch("/api/features");
             const data = await resp.json();
-            console.log(JSON.parse(property.features))
-            setPropertyFeatures([])
-            console.log(data)
-            for (let i = 0; i <= JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]")).length; i++) {
-                setPropertyFeatures(prev => [...prev, ...data.filter(feat => feat.id === JSON.parse(property.features.replaceAll("{", '[').replaceAll("}", "]"))[i])])
-            }
+            setPropertyFeatures(data.filter(feat => parseInt(feat.property) === parseInt(property.id)))
         }
-        if (property.features) {
-            GetFeatures();
-        }
+        GetFeatures();
 
     },[property])
-    console.log(propertyFeatues)
     return (
         <div style={{padding: "20px", margin: "20px", borderRadius: "10px", border: "1px solid #eee"}}>
             <h2 style={{color: "#333"}}>Features And Amenities</h2>

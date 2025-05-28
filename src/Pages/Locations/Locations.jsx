@@ -5,8 +5,9 @@ import Location from "../components/Location";
 import Footer from "../components/Footer"
 import "../Offplan/Offplan.css"
 function convertToM2(area) {
+    if (!area) return 0
     if (area === 'N/A') return 0; 
-    let value = area.replace(/[^\d.-]/g, ''); 
+    let value = area?.replace(/[^\d.-]/g, ''); 
     if (area.includes("KM²") || area.includes("km²")) {
       return parseFloat(value) * 1000000; 
     } else {
@@ -32,14 +33,18 @@ export default function Locations() {
             setWindowSize(window.innerWidth)
         })
     })
-    
     useEffect(() => {
-        const filteredCommunity = Community.filter(dev => 
-            dev.name.toLowerCase().includes(searchTerm)
-        );
-        setTotalPages(Math.ceil(filteredCommunity.length / itemsPerPage));
-        setStartIndex((currentPage - 1) * itemsPerPage);
-        setPaginatedCommunity(filteredCommunity.slice(startIndex, startIndex + itemsPerPage));
+        if (Community.length > 0) {
+            const filteredCommunity = Community?.filter(loca =>
+                loca?.name?.toLowerCase()?.includes(searchTerm)
+            );
+            const newTotalPages = Math.ceil(filteredCommunity.length / itemsPerPage);
+            const newStartIndex = (currentPage - 1) * itemsPerPage;
+            const paginated = filteredCommunity.slice(newStartIndex, newStartIndex + itemsPerPage);
+            
+            setTotalPages(newTotalPages);
+            setPaginatedCommunity(paginated);
+        }
     }, [Community, currentPage, searchTerm]);
 
     useEffect(() => {
@@ -76,10 +81,12 @@ export default function Locations() {
 
     useEffect(() => {
         if (SortBy == "Name") {
-            setCommunity([...Community].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
+            setCommunity([...Community].sort((a, b) => a.name?.toLowerCase().localeCompare(b.name?.toLowerCase())))
+            setCurrentPage(1)
         }
         else if (SortBy === "Area") {
             setCommunity([...Community].sort((a, b) => {let Area1 = convertToM2(a.area); let Area2 = convertToM2(b.area); return Area2 - Area1}))
+            setCurrentPage(1)
         }
         
         
@@ -152,12 +159,12 @@ export default function Locations() {
                         <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(248,249,250) ", border: "1px solid #dee2e6", padding: "20px ", borderRadius: "10px"}}>
                             <div >
                                 <select defaultValue={"Sort By"} onChange={(e) => { setSortBy(e.target.value) }} style={{outline: "none", border: "1px solid #dee2e6", cursor: "pointer", padding: "10px", fontSize: "1rem", borderRadius: "5px"}}>
-                                    <option value="Sort By">Sort By</option>
+                                    <option value="Sort By" hidden>Sort By</option>
                                     <option value="Name">Name</option>
                                     <option value="Area">Area</option>
                                 </select>
                             </div>
-                            <Search data={Community} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()) }}/>
+                            <Search data={Community} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()); setCurrentPage(1) }}/>
                         </div>
 
                         <div style={{display: "flex", width: "100%",flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px", marginTop: "50px"}}>

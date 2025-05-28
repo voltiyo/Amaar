@@ -12,8 +12,7 @@ export default function Developers() {
     const [SortBy, setSortBy] = useState("Sort By")
     const itemsPerPage = 10;
     const [totalPages, setTotalPages] = useState(Math.ceil(Community.length / itemsPerPage));
-    const [startIndex, setStartIndex] = useState((currentPage - 1) * itemsPerPage);
-    const [paginatedCommunity, setPaginatedCommunity] = useState(Community.slice(startIndex, startIndex + itemsPerPage));
+    const [paginatedCommunity, setPaginatedCommunity] = useState(Community.slice(0, 0 + itemsPerPage));
     const [searchTerm, setSearchTerm] = useState("");
     const [locations, setLocations] = useState([])
     const [windowSize, setWindowSize] = useState(window.innerWidth)
@@ -35,12 +34,17 @@ export default function Developers() {
         GetLocations();
     }, [])
     useEffect(() => {
-        const filteredCommunity = Community.filter(dev => 
-            dev.name.toLowerCase().includes(searchTerm)
-        );
-        setTotalPages(Math.ceil(filteredCommunity.length / itemsPerPage));
-        setStartIndex((currentPage - 1) * itemsPerPage);
-        setPaginatedCommunity(filteredCommunity.slice(startIndex, startIndex + itemsPerPage));
+        if (Community.length > 0) {
+            const filteredCommunity = Community?.filter(dev =>
+                dev.name.toLowerCase().includes(searchTerm)
+            );
+            const newTotalPages = Math.ceil(filteredCommunity.length / itemsPerPage);
+            const newStartIndex = (currentPage - 1) * itemsPerPage;
+            const paginated = filteredCommunity.slice(newStartIndex, newStartIndex + itemsPerPage);
+            
+            setTotalPages(newTotalPages);
+            setPaginatedCommunity(paginated);
+        }
     }, [Community, currentPage, searchTerm]);
     
     useEffect(() => {
@@ -70,9 +74,11 @@ export default function Developers() {
     useEffect(() => {
         if (SortBy == "Name") {
             setCommunity([...Community].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
+            setCurrentPage(1)
         }
         else if (SortBy === "Properties") {
             setCommunity([...Community].sort((a, b) => b.projects.length - a.projects.length))
+            setCurrentPage(1)
         }
         
         
@@ -116,7 +122,8 @@ export default function Developers() {
                         <div style={{position: "sticky", top: "0px", boxShadow: "0 .5rem 1rem rgb(0 0 0 / .15)", padding: "10px", borderRadius: "10px"}}>
                             <h3>Recent Projects</h3>
                             {
-                                recentProperties.length > 0 && recentProperties.map((property, index) => (
+                                recentProperties.length > 0 && recentProperties.map((property, index) => {
+                                    return (
                                     <a href={`/Projects/${property.title.replaceAll(" ", "-")}`} key={index} style={{display: "flex", alignItems:" center ", gap: "10px", borderBottom: index !== recentProperties.length - 1 ? "1px dashed  #ccc" : "", padding: "10px"}}>
                                         <div>
                                             <img src={`/api/file/${JSON.parse(property.images.replace("{", "[").replace("}","]"))[0]}`} width={120} height={75} alt="" style={{borderRadius: "5px"}}/>
@@ -136,7 +143,7 @@ export default function Developers() {
                                             </h4>
                                         </div>
                                     </a>
-                                ))
+                                )})
                             }
                         </div>
                     </div>
@@ -145,12 +152,12 @@ export default function Developers() {
                         <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(248,249,250) ", border: "1px solid #dee2e6", padding: "20px ", borderRadius: "10px"}}>
                             <div >
                                 <select style={{outline: "none", border: "1px solid #dee2e6", cursor: "pointer", padding: "10px", fontSize: "1rem", borderRadius: "5px"}} value={SortBy} onChange={(e) => { setSortBy(e.target.value) }}>
-                                    <option value="Sort By">Sort By</option>
+                                    <option value="Sort By" hidden>Sort By</option>
                                     <option value="Name">Name</option>
                                     <option value="Properties">Properties</option>
                                 </select>
                             </div>
-                            <Search data={Community} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()) }} />
+                            <Search data={Community} onchange={(e) => { setSearchTerm(e.target.value.toLowerCase()); setCurrentPage(1) }} />
                         </div>
 
                         <div style={{display: "flex", width: "100%",flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px", marginTop: "50px"}}>
