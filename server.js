@@ -239,11 +239,15 @@ app.post("/api/PDFEmail", async ( req, res) => {
     const resend = new Resend('re_T5La44od_22sZgdF8BBZEWzm2uRyp8fkb');
     
     await resend.emails.send({
-      from: ' <admin@wolvex.co.uk>',
-      to: ['ammar@ammar.ae'],
+      from: 'Admin<admin@wolvex.co.uk>',
+      to: ['azizsafouane167@gmail.com'],
       subject: "Pdf Inquiry: " + req.body.name,
-      html: `Hello Admin,<br /> you are beign notified about a used that is concerned about the ${req.body.pdf === "floor" ? "Floor" : "Payment"} Plan of '${req.body.prop}'. <br /> Here are the user details: <br/> <ul><li><strong>Name: </strong>${req.body.name}</li><li><strong>Email</strong>${req.body.email}</li><li><strong>Phone Number: </strong>${req.body.phone_number}</li><li><strong>Identity: </strong>${req.body.identity}</li></ul>`,
+      html: `Hello Admin,<br /> you are beign notified about a used that is concerned about the ${req.body.pdf === "floor" ? "Floor" : "Payment"} Plan of '${req.body.prop}'. <br /> Here are the user details: <br/> <ul><li><strong>Name: </strong>${req.body.name}</li><li><strong>Email: </strong>${req.body.email}</li><li><strong>Phone Number: </strong>${req.body.phone_number}</li><li><strong>Identity: </strong>${req.body.identity}</li></ul>`,
     });
+
+    const client = await pool.connect();
+    await client.query("INSERT INTO getintouch VALUES (DEFAULT, $1, $2, null, $3, $4, $5, DEFAULT)", [req.body.name, req.body.email, req.body.phone_number, req.body.identity, `Concerned About the ${req.body.pdf === "floor" ? "Floor" : "Payment"} Plan of the property '${req.body.prop}'`])
+
     res.send({success: true})
     
   } catch(err) {
@@ -251,7 +255,6 @@ app.post("/api/PDFEmail", async ( req, res) => {
     res.send({success: false})
   }
 })
-
 app.post("/api/uploadFloor", upload.single("FloorPlanPDF"), async ( req, res ) => {
   try {
     const client = await pool.connect();
