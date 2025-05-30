@@ -240,7 +240,7 @@ app.post("/api/PDFEmail", async ( req, res) => {
     
     await resend.emails.send({
       from: 'Admin<admin@wolvex.co.uk>',
-      to: ['azizsafouane167@gmail.com'],
+      to: ['amaar@amaar.ae'],
       subject: "Pdf Inquiry: " + req.body.name,
       html: `Hello Admin,<br /> you are beign notified about a used that is concerned about the ${req.body.pdf === "floor" ? "Floor" : "Payment"} Plan of '${req.body.prop}'. <br /> Here are the user details: <br/> <ul><li><strong>Name: </strong>${req.body.name}</li><li><strong>Email: </strong>${req.body.email}</li><li><strong>Phone Number: </strong>${req.body.phone_number}</li><li><strong>Identity: </strong>${req.body.identity}</li></ul>`,
     });
